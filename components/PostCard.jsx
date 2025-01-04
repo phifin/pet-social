@@ -1,5 +1,5 @@
-import { Share, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { Share, StyleSheet, Text, View, Alert } from "react-native";
+import React, { useState, useEffect } from "react";
 import { hp, stripHtmlTags, wp } from "../helpers/common";
 import { theme } from "../constants/theme";
 import Avatar from "./Avatar";
@@ -9,13 +9,12 @@ import Icon from "../assets/icons";
 import RenderHtml from "react-native-render-html";
 import { Image } from "expo-image";
 import { downloadFile, getSupabaseFileUrl } from "../services/imageService";
-import { useState, useEffect } from "react";
-import { createPostLike } from "../services/postService";
-import { removePostLike } from "../services/postService";
+import { createPostLike, removePostLike } from "../services/postService";
 import { Video } from "expo-av";
 import * as Sharing from "expo-sharing";
 import { useRouter } from "expo-router";
 import Loading from "./Loading";
+
 const textStyle = {
   color: theme.colors.dark,
   fontSize: hp(1.75),
@@ -40,21 +39,29 @@ const PostCard = ({
   hasShadow = true,
   showMoreIcon = true,
 }) => {
+  // Kiểm tra item có tồn tại hay không
+  if (!item) {
+    return null;
+  }
+
   const openPostDetails = () => {
     if (!showMoreIcon) return null;
     router.push({ pathname: "postDetails", params: { postId: item?.id } });
   };
+
   const createdAt = item?.created_at
     ? format(new Date(item.created_at), "MMM d")
     : "N/A";
 
   const [loading, setLoading] = useState(false);
-  const [likes, setLikes] = useState([]);
+  const [likes, setLikes] = useState(item?.postLikes || []);
 
   useEffect(() => {
     setLikes(item?.postLikes || []);
   }, [item?.postLikes]);
+
   const liked = likes.some((like) => like.userId === currentUser?.id);
+
   const shadowStyles = {
     boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.06)",
   };
@@ -98,7 +105,7 @@ const PostCard = ({
   const onShare = async () => {
     try {
       setLoading(true);
-      let content = { message: stripHtmlTags(item?.body) };
+      let content = { message: stripHtmlTags(item?.body || "") };
 
       if (item?.file) {
         // Download the file
@@ -134,7 +141,7 @@ const PostCard = ({
             rounded={theme.radius.md}
           />
           <View style={{ gap: 2 }}>
-            <Text style={styles.username}>{item?.user?.name}</Text>
+            <Text style={styles.username}>{item?.user?.name || "Unknown"}</Text>
             <Text style={styles.postTime}>{createdAt}</Text>
           </View>
         </View>
@@ -197,7 +204,7 @@ const PostCard = ({
             <TouchableOpacity onPress={openPostDetails}>
               <Icon name="comment" size={24} color={theme.colors.textLight} />
             </TouchableOpacity>
-            <Text style={styles.counts}>{item?.comments[0]?.count}</Text>
+            <Text style={styles.counts}>{item?.comments?.[0]?.count || 0}</Text>
           </View>
           <View style={styles.footerButton}>
             {loading ? (
