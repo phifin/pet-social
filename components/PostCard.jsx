@@ -14,6 +14,8 @@ import { createPostLike } from "../services/postService";
 import { removePostLike } from "../services/postService";
 import { Video } from "expo-av";
 import * as Sharing from "expo-sharing";
+import { useRouter } from "expo-router";
+import Loading from "./Loading";
 const textStyle = {
   color: theme.colors.dark,
   fontSize: hp(1.75),
@@ -31,9 +33,22 @@ const tagsStyles = {
   },
 };
 
-const PostCard = ({ item, currentUser, router, hasShadow = true }) => {
-  const openPostDetails = () => {};
-  const createdAt = format(new Date(item?.created_at), "MMM d");
+const PostCard = ({
+  item,
+  currentUser,
+  router,
+  hasShadow = true,
+  showMoreIcon = true,
+}) => {
+  const openPostDetails = () => {
+    if (!showMoreIcon) return null;
+    router.push({ pathname: "postDetails", params: { postId: item?.id } });
+  };
+  const createdAt = item?.created_at
+    ? format(new Date(item.created_at), "MMM d")
+    : "N/A";
+
+  const [loading, setLoading] = useState(false);
   const [likes, setLikes] = useState([]);
 
   useEffect(() => {
@@ -82,17 +97,14 @@ const PostCard = ({ item, currentUser, router, hasShadow = true }) => {
 
   const onShare = async () => {
     try {
+      setLoading(true);
       let content = { message: stripHtmlTags(item?.body) };
 
       if (item?.file) {
-        console.log("File path:", item?.file);
-
         // Download the file
         const fileUrl = getSupabaseFileUrl(item?.file).uri;
         const localUri = await downloadFile(fileUrl);
-
-        console.log("Downloaded file URI:", localUri);
-
+        setLoading(false);
         // Check if sharing is available
         if (await Sharing.isAvailableAsync()) {
           await Sharing.shareAsync(localUri, { dialogTitle: "Share Post" });
@@ -101,7 +113,9 @@ const PostCard = ({ item, currentUser, router, hasShadow = true }) => {
         }
       } else {
         // Share text-only content
+        setLoading(true);
         Share.share(content);
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error sharing post:", error);
@@ -124,14 +138,17 @@ const PostCard = ({ item, currentUser, router, hasShadow = true }) => {
             <Text style={styles.postTime}>{createdAt}</Text>
           </View>
         </View>
-        <TouchableOpacity onPress={openPostDetails}>
-          <Icon
-            name="threeDotsHorizontal"
-            size={hp(3.4)}
-            strokeWidth={3}
-            color={theme.colors.text}
-          />
-        </TouchableOpacity>
+
+        {showMoreIcon && (
+          <TouchableOpacity onPress={openPostDetails}>
+            <Icon
+              name="threeDotsHorizontal"
+              size={hp(3.4)}
+              strokeWidth={3}
+              color={theme.colors.text}
+            />
+          </TouchableOpacity>
+        )}
       </View>
 
       <View style={styles.content}>
@@ -177,15 +194,19 @@ const PostCard = ({ item, currentUser, router, hasShadow = true }) => {
             <Text style={styles.counts}>{likes.length}</Text>
           </View>
           <View style={styles.footerButton}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={openPostDetails}>
               <Icon name="comment" size={24} color={theme.colors.textLight} />
             </TouchableOpacity>
-            <Text style={styles.counts}>{0}</Text>
+            <Text style={styles.counts}>{item?.comments[0]?.count}</Text>
           </View>
           <View style={styles.footerButton}>
-            <TouchableOpacity onPress={onShare}>
-              <Icon name="share" size={24} color={theme.colors.textLight} />
-            </TouchableOpacity>
+            {loading ? (
+              <Loading size="small" />
+            ) : (
+              <TouchableOpacity onPress={onShare}>
+                <Icon name="share" size={24} color={theme.colors.textLight} />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </View>
