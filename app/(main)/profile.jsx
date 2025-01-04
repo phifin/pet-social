@@ -100,6 +100,14 @@ const UserHeader = ({ user, router, handleLogout }) => {
 
           {user && user.bio && <Text style={styles.infoText}>{user.bio}</Text>}
         </View>
+        <Pressable style={styles.editIcon}>
+          <Icon
+            name="plus"
+            strokeWidth={2.5}
+            size={40}
+            onPress={() => router.push("appointment")}
+          />
+        </Pressable>
       </View>
     </View>
   );

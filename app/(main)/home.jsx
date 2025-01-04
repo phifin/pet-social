@@ -64,7 +64,7 @@ const Home = () => {
     <ScreenWrapper bg="white">
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.title}>Pee Tea</Text>
+          <Text style={styles.title}>PeTea</Text>
           <View style={styles.icons}>
             <Pressable onPress={() => router.push("dogRanking")}>
               <Icon
@@ -142,9 +142,10 @@ const styles = StyleSheet.create({
     marginHorizontal: wp(4),
   },
   title: {
-    color: theme.colors.text,
+    color: theme.colors.primaryDark,
     fontSize: hp(3.2),
     fontWeight: theme.fonts.bold,
+    marginLeft: 10,
   },
   avatarImage: {
     height: hp(4.3),
