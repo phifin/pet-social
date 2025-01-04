@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Share, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { hp, wp } from "../helpers/common";
 import { theme } from "../constants/theme";
@@ -9,6 +9,9 @@ import Icon from "../assets/icons";
 import RenderHtml from "react-native-render-html";
 import { Image } from "expo-image";
 import { getSupabaseFileUrl } from "../services/imageService";
+import { useState, useEffect } from "react";
+import { createPostLike } from "../services/postService";
+import { removePostLike } from "../services/postService";
 
 const textStyle = {
   color: theme.colors.dark,
@@ -30,11 +33,55 @@ const tagsStyles = {
 const PostCard = ({ item, currentUser, router, hasShadow = true }) => {
   const openPostDetails = () => {};
   const createdAt = format(new Date(item?.created_at), "MMM d");
-  const likes = [];
-  const liked = true;
-  // console.log("Image URL:", getSupabaseFileUrl(item?.file));
+  const [likes, setLikes] = useState([]);
+
+  useEffect(() => {
+    setLikes(item?.postLikes || []);
+  }, [item?.postLikes]);
+  const liked = likes.some((like) => like.userId === currentUser?.id);
   const shadowStyles = {
     boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.06)",
+  };
+
+  const onLike = async () => {
+    try {
+      if (liked) {
+        // Remove Like
+        const originalLikes = [...likes]; // Lưu trạng thái ban đầu
+        const updatedLikes = likes.filter(
+          (like) => like.userId !== currentUser?.id
+        );
+        setLikes(updatedLikes); // Cập nhật tạm thời
+
+        const res = await removePostLike(item?.id, currentUser?.id);
+        if (!res.success) {
+          Alert.alert("Post", "Something went wrong!");
+          setLikes(originalLikes); // Khôi phục trạng thái nếu có lỗi
+        }
+      } else {
+        // Create Like
+        const originalLikes = [...likes]; // Lưu trạng thái ban đầu
+        const newLike = {
+          userId: currentUser?.id,
+          postId: item?.id,
+        };
+        setLikes([...likes, newLike]); // Cập nhật tạm thời
+
+        const res = await createPostLike(newLike);
+        if (!res.success) {
+          Alert.alert("Post", "Something went wrong!");
+          setLikes(originalLikes); // Khôi phục trạng thái nếu có lỗi
+        }
+      }
+    } catch (error) {
+      console.error("Error liking post:", error);
+      Alert.alert("Post", "Something went wrong!");
+    }
+  };
+
+  const onShare = async () => {
+    let content = { message: item?.body };
+    Share.share(content);
   };
   return (
     <View style={[styles.container, hasShadow && shadowStyles]}>
@@ -93,7 +140,7 @@ const PostCard = ({ item, currentUser, router, hasShadow = true }) => {
 
         <View style={styles.footer}>
           <View style={styles.footerButton}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={onLike}>
               <Icon
                 name="heart"
                 size={24}
@@ -110,7 +157,7 @@ const PostCard = ({ item, currentUser, router, hasShadow = true }) => {
             <Text style={styles.counts}>{0}</Text>
           </View>
           <View style={styles.footerButton}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={onShare}>
               <Icon name="share" size={24} color={theme.colors.textLight} />
             </TouchableOpacity>
           </View>
