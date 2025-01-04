@@ -1,6 +1,6 @@
 import { Share, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { hp, wp } from "../helpers/common";
+import { hp, stripHtmlTags, wp } from "../helpers/common";
 import { theme } from "../constants/theme";
 import Avatar from "./Avatar";
 import { format } from "date-fns";
@@ -8,11 +8,12 @@ import { TouchableOpacity } from "react-native";
 import Icon from "../assets/icons";
 import RenderHtml from "react-native-render-html";
 import { Image } from "expo-image";
-import { getSupabaseFileUrl } from "../services/imageService";
+import { downloadFile, getSupabaseFileUrl } from "../services/imageService";
 import { useState, useEffect } from "react";
 import { createPostLike } from "../services/postService";
 import { removePostLike } from "../services/postService";
-
+import { Video } from "expo-av";
+import * as Sharing from "expo-sharing";
 const textStyle = {
   color: theme.colors.dark,
   fontSize: hp(1.75),
@@ -80,9 +81,34 @@ const PostCard = ({ item, currentUser, router, hasShadow = true }) => {
   };
 
   const onShare = async () => {
-    let content = { message: item?.body };
-    Share.share(content);
+    try {
+      let content = { message: stripHtmlTags(item?.body) };
+
+      if (item?.file) {
+        console.log("File path:", item?.file);
+
+        // Download the file
+        const fileUrl = getSupabaseFileUrl(item?.file).uri;
+        const localUri = await downloadFile(fileUrl);
+
+        console.log("Downloaded file URI:", localUri);
+
+        // Check if sharing is available
+        if (await Sharing.isAvailableAsync()) {
+          await Sharing.shareAsync(localUri, { dialogTitle: "Share Post" });
+        } else {
+          console.log("Sharing is not available on this device.");
+        }
+      } else {
+        // Share text-only content
+        Share.share(content);
+      }
+    } catch (error) {
+      console.error("Error sharing post:", error);
+      Alert.alert("Post", "Unable to share this post.");
+    }
   };
+
   return (
     <View style={[styles.container, hasShadow && shadowStyles]}>
       <View style={styles.header}>
