@@ -24,7 +24,7 @@ const MainLayout = () => {
 
         if (session) {
           setAuth(session?.user);
-          updateUserData(session?.user);
+          updateUserData(session?.user, session?.user?.email);
           router.replace("/home");
         } else {
           setAuth(null);
@@ -36,9 +36,9 @@ const MainLayout = () => {
     // Cleanup subscription on component unmount
   }, []);
 
-  const updateUserData = async (user) => {
+  const updateUserData = async (user, email) => {
     let res = await getUSerData(user?.id);
-    if (res.success) setUserData(res.data);
+    if (res.success) setUserData({ ...res.data, email });
   };
 
   return (

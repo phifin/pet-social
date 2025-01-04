@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: hp(2.5),
-    colors: "white",
+    color: "white",
     fontWeight: theme.fonts.bold,
   },
 });
