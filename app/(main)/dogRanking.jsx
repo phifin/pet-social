@@ -5,9 +5,10 @@ import {
   TouchableOpacity,
   StyleSheet,
   FlatList,
-  ScrollView,
 } from "react-native";
 import ScreenWrapper from "../../components/ScreenWrapper";
+import { useRouter } from "expo-router";
+import BackButton from "../../components/BackButton";
 
 const dogRanking = () => {
   const [selectedBreed, setSelectedBreed] = useState(null);
@@ -26,59 +27,100 @@ const dogRanking = () => {
 
   // Hàm xử lý khi người dùng chọn giống chó
   const handleSelectBreed = (breed) => {
-    setSelectedBreed(breed);
+    if (selectedBreed === breed) return; // Nếu giống chó đã chọn rồi thì không làm gì cả
 
-    // Tăng lượt chọn cho giống chó
     setDogBreeds((prevBreeds) =>
-      prevBreeds.map((item) =>
-        item.breed === breed ? { ...item, votes: item.votes + 1 } : item
-      )
+      prevBreeds.map((item) => {
+        if (item.breed === breed) {
+          return { ...item, votes: item.votes + 1 }; // Tăng điểm cho giống chó được chọn
+        }
+        if (item.breed === selectedBreed) {
+          return { ...item, votes: item.votes - 1 }; // Giảm điểm giống chó trước đó
+        }
+        return item;
+      })
     );
+
+    setSelectedBreed(breed); // Cập nhật giống chó được chọn
   };
 
   // Hàm sắp xếp giống chó theo số lượt chọn (votes)
   const sortedBreeds = [...dogBreeds].sort((a, b) => b.votes - a.votes);
+  const router = useRouter();
+
+  // Mảng các phần tử hiển thị trong FlatList
+  const renderItems = [
+    {
+      type: "title",
+      content: "Bảng Xếp Hạng Giống Chó",
+    },
+    {
+      type: "subtitle",
+      content: "Chọn giống chó yêu thích:",
+    },
+    {
+      type: "dropdown",
+      content: dogBreeds.map((item) => (
+        <TouchableOpacity
+          key={item.breed}
+          style={[
+            styles.dropdownItem,
+            selectedBreed === item.breed && styles.selectedItem, // Highlight item được chọn
+            item.votes === Math.max(...dogBreeds.map((breed) => breed.votes)) &&
+              styles.highlightItem, // Highlight giống chó có điểm cao nhất
+          ]}
+          onPress={() => handleSelectBreed(item.breed)}
+        >
+          <Text style={styles.dropdownText}>{item.breed}</Text>
+        </TouchableOpacity>
+      )),
+    },
+    {
+      type: "selectedBreed",
+      content: selectedBreed ? `Giống chó bạn đã chọn: ${selectedBreed}` : "",
+    },
+    {
+      type: "subtitle",
+      content: "Bảng xếp hạng giống chó yêu thích:",
+    },
+    {
+      type: "ranking",
+      content: sortedBreeds.map((item, index) => (
+        <View key={item.breed} style={styles.rankItem}>
+          <Text style={styles.rankText}>
+            {index + 1}. {item.breed} - {item.votes} lượt chọn
+          </Text>
+        </View>
+      )),
+    },
+  ];
 
   return (
     <ScreenWrapper>
-      <ScrollView style={styles.container}>
-        <Text style={styles.title}>Bảng Xếp Hạng Giống Chó</Text>
-
-        {/* Danh sách giống chó cho người dùng chọn */}
-        <Text style={styles.subtitle}>Chọn giống chó yêu thích:</Text>
-        <ScrollView style={styles.dropdown}>
-          {dogBreeds.map((item) => (
-            <TouchableOpacity
-              key={item.breed}
-              style={styles.dropdownItem}
-              onPress={() => handleSelectBreed(item.breed)}
-            >
-              <Text style={styles.dropdownText}>{item.breed}</Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-
-        {/* Hiển thị giống chó đã chọn */}
-        {selectedBreed && (
-          <Text style={styles.selectedBreed}>
-            Giống chó bạn đã chọn: {selectedBreed}
-          </Text>
-        )}
-
-        {/* Bảng xếp hạng */}
-        <Text style={styles.subtitle}>Bảng xếp hạng giống chó yêu thích:</Text>
-        <FlatList
-          data={sortedBreeds}
-          keyExtractor={(item) => item.breed}
-          renderItem={({ item, index }) => (
-            <View style={styles.rankItem}>
-              <Text style={styles.rankText}>
-                {index + 1}. {item.breed} - {item.votes} lượt chọn
-              </Text>
-            </View>
-          )}
-        />
-      </ScrollView>
+      <FlatList
+        data={renderItems}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => {
+          if (item.type === "title") {
+            return <Text style={styles.title}>{item.content}</Text>;
+          }
+          if (item.type === "subtitle") {
+            return <Text style={styles.subtitle}>{item.content}</Text>;
+          }
+          if (item.type === "dropdown") {
+            return <View style={styles.dropdown}>{item.content}</View>;
+          }
+          if (item.type === "selectedBreed") {
+            return item.content ? (
+              <Text style={styles.selectedBreed}>{item.content}</Text>
+            ) : null;
+          }
+          if (item.type === "ranking") {
+            return <>{item.content}</>;
+          }
+        }}
+        ListHeaderComponent={<BackButton router={router} />}
+      />
     </ScreenWrapper>
   );
 };
@@ -114,6 +156,12 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
+  },
+  selectedItem: {
+    backgroundColor: "#d1e7dd", // Màu nền khi giống chó được chọn
+  },
+  highlightItem: {
+    backgroundColor: "#ffeb3b", // Màu nền khi giống chó có điểm cao nhất
   },
   dropdownText: {
     fontSize: 16,
