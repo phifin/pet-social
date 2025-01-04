@@ -66,9 +66,17 @@ const Home = () => {
         <View style={styles.header}>
           <Text style={styles.title}>Pee Tea</Text>
           <View style={styles.icons}>
-            <Pressable onPress={() => router.push("notifications")}>
+            <Pressable onPress={() => router.push("dogRanking")}>
               <Icon
                 name="heart"
+                size={hp(3.2)}
+                strokeWidth={2}
+                color={theme.colors.text}
+              />
+            </Pressable>
+            <Pressable onPress={() => router.push("petCalendar")}>
+              <Icon
+                name="search"
                 size={hp(3.2)}
                 strokeWidth={2}
                 color={theme.colors.text}

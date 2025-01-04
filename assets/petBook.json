@@ -1,0 +1,244 @@
+{
+  "pet_handbook": [
+    {
+      "breed": "Golden Retriever",
+      "breeding": "Nên phối giống với Labrador Retriever để tạo ra những chú chó có tính cách thân thiện và thể chất khỏe mạnh.",
+      "diet": "Cần chế độ ăn giàu protein từ thịt gà, cá, hoặc thịt bò. Bổ sung rau xanh và các loại hạt để cân bằng dinh dưỡng.",
+      "habits": "Golden thích các hoạt động ngoài trời như chạy bộ, bơi lội và chơi ném bóng. Cần ít nhất 1-2 giờ hoạt động mỗi ngày."
+    },
+    {
+      "breed": "Poodle",
+      "breeding": "Poodle thường được phối với các giống chó nhỏ khác như Bichon Frise để tạo ra những chú chó dễ chăm sóc và ít rụng lông.",
+      "diet": "Nên cho ăn các loại thực phẩm khô chất lượng cao, bổ sung dầu cá để lông mềm mượt. Tránh đồ ngọt và thực phẩm nhiều dầu mỡ.",
+      "habits": "Thích học hỏi và chơi đùa trong nhà. Cần các trò chơi kích thích trí tuệ như tìm đồ vật hoặc học lệnh mới."
+    },
+    {
+      "breed": "German Shepherd",
+      "breeding": "Thường phối giống với Belgian Malinois để tạo ra chó nghiệp vụ xuất sắc.",
+      "diet": "Cần chế độ ăn giàu protein từ thịt và các loại xương mềm. Bổ sung canxi để hỗ trợ xương khớp.",
+      "habits": "Thích các hoạt động thể chất mạnh như chạy đường dài và huấn luyện kỹ năng. Cần không gian rộng để vận động."
+    },
+    {
+      "breed": "Bulldog",
+      "breeding": "Nên phối với Pug hoặc Boxer để có những chú chó có ngoại hình đáng yêu và tính cách vui nhộn.",
+      "diet": "Cần kiểm soát khẩu phần ăn để tránh béo phì. Nên cho ăn thực phẩm ít chất béo và giàu chất xơ.",
+      "habits": "Bulldog thích ngủ và thư giãn, nhưng cần đi bộ ngắn hằng ngày để duy trì sức khỏe."
+    },
+    {
+      "breed": "Beagle",
+      "breeding": "Beagle có thể phối giống với Cocker Spaniel để tạo ra những chú chó thân thiện và hoạt bát.",
+      "diet": "Nên cho ăn thực phẩm giàu năng lượng nhưng cần kiểm soát khẩu phần để tránh tăng cân.",
+      "habits": "Beagle thích khám phá và đi bộ đường dài. Cần chơi các trò chơi giúp giải tỏa năng lượng dư thừa."
+    },
+    {
+      "breed": "Husky",
+      "breeding": "Thích hợp phối giống với Malamute để tạo ra những chú chó mạnh mẽ và chịu được thời tiết lạnh.",
+      "diet": "Cần chế độ ăn giàu protein và mỡ để hỗ trợ năng lượng cho hoạt động. Bổ sung omega-3 từ cá.",
+      "habits": "Husky thích chạy bộ và các hoạt động ngoài trời. Cần môi trường lạnh và không gian rộng để vận động."
+    },
+    {
+      "breed": "Chihuahua",
+      "breeding": "Thường phối giống với Pomeranian để tạo ra các chú chó nhỏ đáng yêu và thông minh.",
+      "diet": "Nên cho ăn các loại thực phẩm hạt nhỏ phù hợp với kích thước miệng. Tránh thức ăn cay, nóng.",
+      "habits": "Thích nằm trong nhà và ngủ nhưng cần các bài tập nhẹ nhàng như đi bộ để duy trì sức khỏe."
+    },
+    {
+      "breed": "Dachshund",
+      "breeding": "Dachshund thường phối giống với Corgi để tạo ra các chú chó thân thiện và khỏe mạnh.",
+      "diet": "Cần thực phẩm dễ tiêu hóa và giàu protein. Tránh đồ ăn cứng vì dễ gây tổn thương răng.",
+      "habits": "Dachshund thích đào bới và chơi đùa trong không gian nhỏ. Cần bài tập nhẹ nhàng để tránh béo phì."
+    },
+    {
+      "breed": "Shiba Inu",
+      "breeding": "Phối giống tốt nhất với Akita để tạo ra những chú chó có thể lực khỏe và tính cách trung thành.",
+      "diet": "Cần thực phẩm cân bằng dinh dưỡng với protein từ cá và thịt. Bổ sung vitamin từ rau củ.",
+      "habits": "Thích tự lập và hoạt động ngoài trời. Cần các trò chơi kích thích trí tuệ để tránh buồn chán."
+    },
+    {
+      "breed": "Corgi",
+      "breeding": "Corgi thường phối với Border Collie để tạo ra chó thông minh và nhanh nhẹn.",
+      "diet": "Cần chế độ ăn giàu protein nhưng kiểm soát lượng calo để tránh tăng cân.",
+      "habits": "Corgi thích chạy nhảy và chơi đùa. Cần ít nhất 30 phút đi bộ hoặc chơi mỗi ngày."
+    },
+    {
+      "breed": "Dalmatian",
+      "breeding": "Thường được phối giống với Pointer để tạo ra những chú chó săn nhanh nhẹn và khỏe mạnh.",
+      "diet": "Cần chế độ ăn giàu protein từ thịt và bổ sung các loại carbohydrate phức tạp từ gạo hoặc khoai lang.",
+      "habits": "Dalmatian thích chạy bộ và các hoạt động thể chất mạnh. Cần không gian rộng để vận động và giảm căng thẳng."
+    },
+    {
+      "breed": "Akita Inu",
+      "breeding": "Phối giống tốt nhất với Shiba Inu để tạo ra các chú chó trung thành và thông minh.",
+      "diet": "Cần chế độ ăn giàu protein từ cá, thịt, và bổ sung rau xanh. Tránh các loại thực phẩm có hạt.",
+      "habits": "Akita thích hoạt động ngoài trời và giữ gìn không gian riêng. Cần được huấn luyện sớm để kiểm soát tính độc lập."
+    },
+    {
+      "breed": "Samoyed",
+      "breeding": "Thích hợp phối giống với Siberian Husky để tạo ra các chú chó chịu lạnh và năng động.",
+      "diet": "Cần chế độ ăn giàu omega-3 từ cá hồi, bổ sung mỡ động vật và rau củ để hỗ trợ bộ lông dày mượt.",
+      "habits": "Samoyed thích bơi lội, chạy nhảy và chơi trong môi trường lạnh. Cần được chải lông thường xuyên để duy trì vệ sinh."
+    },
+    {
+      "breed": "Maltese",
+      "breeding": "Phối giống với Bichon Frise để tạo ra các chú chó nhỏ dễ thương và ít rụng lông.",
+      "diet": "Cần thực phẩm mềm và dễ tiêu hóa như thịt gà và rau củ. Tránh các loại thức ăn cứng.",
+      "habits": "Maltese thích ở trong nhà, ngủ trên đệm êm và chơi các trò chơi nhẹ nhàng. Cần tỉa lông thường xuyên để giữ vẻ đẹp."
+    },
+    {
+      "breed": "Rottweiler",
+      "breeding": "Thường phối giống với Doberman để tạo ra các chú chó bảo vệ mạnh mẽ và trung thành.",
+      "diet": "Cần thực phẩm giàu protein từ thịt bò và bổ sung canxi để hỗ trợ xương khớp.",
+      "habits": "Rottweiler thích huấn luyện thể chất và các bài tập bảo vệ. Cần người chủ có kinh nghiệm để huấn luyện đúng cách."
+    },
+    {
+      "breed": "Great Dane",
+      "breeding": "Phối giống với Mastiff để tạo ra các chú chó khổng lồ nhưng thân thiện.",
+      "diet": "Cần chế độ ăn giàu calo và protein để hỗ trợ sự phát triển của cơ bắp và xương.",
+      "habits": "Great Dane thích ngủ nhiều nhưng cũng cần các bài tập nhẹ để duy trì sức khỏe. Cần không gian lớn để thoải mái vận động."
+    },
+    {
+      "breed": "Boxer",
+      "breeding": "Phối giống với Bullmastiff để tạo ra các chú chó bảo vệ thông minh và trung thành.",
+      "diet": "Cần chế độ ăn cân bằng với protein từ thịt gà, rau củ và các loại hạt. Tránh thực phẩm quá béo.",
+      "habits": "Boxer thích chạy bộ, chơi đùa và có thể tham gia các bài tập huấn luyện bảo vệ. Cần nhiều sự quan tâm từ chủ nhân."
+    },
+    {
+      "breed": "Yorkshire Terrier",
+      "breeding": "Thường được phối giống với Maltese để tạo ra các chú chó nhỏ dễ chăm sóc và thông minh.",
+      "diet": "Nên ăn thức ăn khô chất lượng cao hoặc thực phẩm tươi chế biến tại nhà. Tránh các loại thức ăn cay, nóng.",
+      "habits": "Yorkshire Terrier thích ở trong nhà, nằm gần chủ và chơi các trò chơi nhỏ. Cần chải lông thường xuyên để giữ vẻ đẹp."
+    },
+    {
+      "breed": "Australian Shepherd",
+      "breeding": "Thường phối giống với Border Collie để tạo ra các chú chó chăn gia súc xuất sắc.",
+      "diet": "Cần chế độ ăn giàu protein và năng lượng từ thịt và rau củ. Tránh các loại thực phẩm nhiều đường.",
+      "habits": "Australian Shepherd thích các hoạt động ngoài trời và công việc chăn gia súc. Cần huấn luyện trí tuệ thường xuyên."
+    },
+    {
+      "breed": "Saint Bernard",
+      "breeding": "Thích hợp phối giống với Newfoundland để tạo ra các chú chó cứu hộ chịu lạnh tốt.",
+      "diet": "Cần chế độ ăn giàu calo và protein từ thịt bò, gạo và các loại rau củ. Tránh thức ăn có nhiều chất béo.",
+      "habits": "Saint Bernard thích hoạt động trong tuyết và làm nhiệm vụ cứu hộ. Cần không gian rộng và môi trường mát mẻ để sinh hoạt."
+    },
+    {
+      "breed": "Alaskan Malamute",
+      "breeding": "Phối giống với Siberian Husky để tạo ra những chú chó mạnh mẽ và thích hợp với môi trường lạnh.",
+      "diet": "Cần chế độ ăn giàu protein từ thịt và cá, bổ sung mỡ để hỗ trợ năng lượng.",
+      "habits": "Malamute thích chạy đường dài và kéo xe. Cần môi trường rộng rãi và lạnh mát."
+    },
+    {
+      "breed": "Labrador Retriever",
+      "breeding": "Thường phối giống với Golden Retriever để tạo ra các chú chó thông minh và thân thiện.",
+      "diet": "Cần thực phẩm cân bằng dinh dưỡng, bao gồm protein từ thịt gà và rau xanh.",
+      "habits": "Labrador thích bơi lội và chơi ném bóng. Cần vận động ít nhất 1-2 giờ mỗi ngày."
+    },
+    {
+      "breed": "Pug",
+      "breeding": "Thích hợp phối giống với Bulldog để tạo ra các chú chó dễ thương và tình cảm.",
+      "diet": "Cần chế độ ăn ít calo để tránh béo phì, bổ sung rau củ để hỗ trợ tiêu hóa.",
+      "habits": "Pug thích nằm thư giãn nhưng cần đi bộ nhẹ nhàng để duy trì sức khỏe."
+    },
+    {
+      "breed": "Boston Terrier",
+      "breeding": "Phối giống với French Bulldog để tạo ra các chú chó thân thiện và vui nhộn.",
+      "diet": "Cần thực phẩm giàu protein và chất xơ. Tránh thức ăn chứa nhiều dầu mỡ.",
+      "habits": "Boston Terrier thích chơi đùa trong nhà và đi bộ ngắn hàng ngày."
+    },
+    {
+      "breed": "Cavalier King Charles Spaniel",
+      "breeding": "Thường được phối giống với Poodle để tạo ra các chú chó nhỏ thông minh và đáng yêu.",
+      "diet": "Cần thực phẩm mềm dễ tiêu hóa, bổ sung omega-3 để lông bóng mượt.",
+      "habits": "Cavalier thích gần gũi với gia đình và chơi nhẹ nhàng. Cần được chải lông thường xuyên."
+    },
+    {
+      "breed": "Border Collie",
+      "breeding": "Phối giống với Australian Shepherd để tạo ra các chú chó chăn gia súc thông minh và nhanh nhẹn.",
+      "diet": "Cần chế độ ăn giàu protein từ thịt và các loại hạt. Bổ sung rau xanh để cân bằng.",
+      "habits": "Border Collie thích huấn luyện và làm việc. Cần môi trường rộng và các bài tập trí tuệ."
+    },
+    {
+      "breed": "Bichon Frise",
+      "breeding": "Thích hợp phối giống với Maltese để tạo ra các chú chó nhỏ ít rụng lông.",
+      "diet": "Cần thực phẩm khô chất lượng cao và bổ sung dầu cá để lông mềm mượt.",
+      "habits": "Bichon thích chơi đùa trong nhà và ở gần gia đình. Cần chải lông thường xuyên."
+    },
+    {
+      "breed": "Newfoundland",
+      "breeding": "Phối giống với Saint Bernard để tạo ra các chú chó cứu hộ chịu lạnh tốt.",
+      "diet": "Cần thực phẩm giàu calo và protein để hỗ trợ cơ bắp và xương.",
+      "habits": "Newfoundland thích bơi lội và tham gia các nhiệm vụ cứu hộ."
+    },
+    {
+      "breed": "Whippet",
+      "breeding": "Phối giống với Greyhound để tạo ra các chú chó săn nhanh nhẹn và thanh lịch.",
+      "diet": "Cần chế độ ăn giàu protein từ thịt nạc và bổ sung rau củ.",
+      "habits": "Whippet thích chạy nhanh và ngủ nhiều. Cần các bài tập nhẹ nhàng."
+    },
+    {
+      "breed": "English Setter",
+      "breeding": "Thường phối giống với Irish Setter để tạo ra các chú chó săn xuất sắc.",
+      "diet": "Cần chế độ ăn giàu protein và canxi để hỗ trợ xương khớp.",
+      "habits": "English Setter thích chạy bộ và săn bắn. Cần không gian rộng để vận động."
+    },
+    {
+      "breed": "Shar Pei",
+      "breeding": "Thích hợp phối giống với Bulldog để tạo ra các chú chó đáng yêu và độc đáo.",
+      "diet": "Cần thực phẩm khô chất lượng cao, bổ sung omega-3 để duy trì da khỏe mạnh.",
+      "habits": "Shar Pei thích sống độc lập và cần được huấn luyện sớm."
+    },
+    {
+      "breed": "Weimaraner",
+      "breeding": "Phối giống với Vizsla để tạo ra các chú chó săn nhanh nhẹn và trung thành.",
+      "diet": "Cần thực phẩm giàu protein và năng lượng. Bổ sung canxi để hỗ trợ xương khớp.",
+      "habits": "Weimaraner thích săn bắn và các hoạt động thể chất mạnh."
+    },
+    {
+      "breed": "Rhodesian Ridgeback",
+      "breeding": "Thường phối giống với Great Dane để tạo ra các chú chó mạnh mẽ và bảo vệ tốt.",
+      "diet": "Cần thực phẩm giàu protein và mỡ động vật để duy trì năng lượng.",
+      "habits": "Rhodesian thích chạy đường dài và làm nhiệm vụ bảo vệ."
+    },
+    {
+      "breed": "Australian Cattle Dog",
+      "breeding": "Thích hợp phối giống với Border Collie để tạo ra các chú chó chăn gia súc thông minh.",
+      "diet": "Cần chế độ ăn giàu protein từ thịt và bổ sung carbohydrate từ gạo.",
+      "habits": "Australian Cattle Dog thích làm việc và các bài tập huấn luyện phức tạp."
+    },
+    {
+      "breed": "Doberman Pinscher",
+      "breeding": "Phối giống với Rottweiler để tạo ra các chú chó bảo vệ trung thành và mạnh mẽ.",
+      "diet": "Cần thực phẩm giàu protein từ thịt và bổ sung canxi để hỗ trợ xương khớp.",
+      "habits": "Doberman thích huấn luyện và làm nhiệm vụ bảo vệ. Cần người chủ có kinh nghiệm."
+    },
+    {
+      "breed": "Basenji",
+      "breeding": "Thường phối giống với Whippet để tạo ra các chú chó săn nhanh và ít sủa.",
+      "diet": "Cần thực phẩm dễ tiêu hóa và bổ sung các loại hạt.",
+      "habits": "Basenji thích hoạt động ngoài trời và giữ gìn vệ sinh cá nhân."
+    },
+    {
+      "breed": "Airedale Terrier",
+      "breeding": "Thích hợp phối giống với Welsh Terrier để tạo ra các chú chó săn thông minh.",
+      "diet": "Cần thực phẩm giàu protein và chất xơ. Tránh thức ăn chứa nhiều dầu mỡ.",
+      "habits": "Airedale Terrier thích săn bắn và các bài tập thể chất."
+    },
+    {
+      "breed": "Bernese Mountain Dog",
+      "breeding": "Phối giống với Newfoundland để tạo ra các chú chó làm việc mạnh mẽ.",
+      "diet": "Cần thực phẩm giàu calo và protein để hỗ trợ cơ bắp.",
+      "habits": "Bernese thích làm việc và vận động trong môi trường lạnh."
+    },
+    {
+      "breed": "Irish Wolfhound",
+      "breeding": "Thường phối giống với Scottish Deerhound để tạo ra các chú chó săn lớn và mạnh mẽ.",
+      "diet": "Cần chế độ ăn giàu protein và bổ sung mỡ để duy trì năng lượng.",
+      "habits": "Irish Wolfhound thích săn bắn và các hoạt động thể chất."
+    },
+    {
+      "breed": "Chow Chow",
+      "breeding": "Thích hợp phối giống với Shar Pei để tạo ra các chú chó độc đáo và trung thành.",
+      "diet": "Cần thực phẩm giàu protein từ thịt nạc và bổ sung rau củ.",
+      "habits": "Chow Chow thích sống độc lập và cần chăm sóc bộ lông thường xuyên."
+    }
+  ]
+}
