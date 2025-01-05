@@ -8,6 +8,8 @@ import {
   ScrollView,
 } from "react-native";
 import ScreenWrapper from "../../components/ScreenWrapper";
+import { useRouter } from "expo-router";
+import BackButton from "../../components/BackButton";
 
 const DogBreedFilter = () => {
   const [selectedSize, setSelectedSize] = useState(null);
@@ -16,6 +18,7 @@ const DogBreedFilter = () => {
   const [selectedTemperament, setSelectedTemperament] = useState(null);
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [filteredBreeds, setFilteredBreeds] = useState(dogBreeds);
+  const router = useRouter();
 
   const dogBreeds = [
     {
@@ -98,6 +101,206 @@ const DogBreedFilter = () => {
       temperament: "Friendly",
       activity: "Running",
     },
+    {
+      breed: "Rottweiler",
+      size: "Large",
+      color: "Black and Tan",
+      age: "Adult",
+      temperament: "Loyal",
+      activity: "Guarding",
+    },
+    {
+      breed: "Boxer",
+      size: "Medium",
+      color: "Brindle",
+      age: "Adult",
+      temperament: "Energetic",
+      activity: "Running",
+    },
+    {
+      breed: "Dalmatian",
+      size: "Medium",
+      color: "White with Black spots",
+      age: "Puppy",
+      temperament: "Playful",
+      activity: "Running",
+    },
+    {
+      breed: "Yorkshire Terrier",
+      size: "Small",
+      color: "Gray and Tan",
+      age: "Senior",
+      temperament: "Affectionate",
+      activity: "Walking",
+    },
+    {
+      breed: "French Bulldog",
+      size: "Small",
+      color: "Fawn",
+      age: "Adult",
+      temperament: "Friendly",
+      activity: "Sleeping",
+    },
+    {
+      breed: "Shih Tzu",
+      size: "Small",
+      color: "Gold and White",
+      age: "Adult",
+      temperament: "Affectionate",
+      activity: "Walking",
+    },
+    {
+      breed: "Border Collie",
+      size: "Medium",
+      color: "Black and White",
+      age: "Adult",
+      temperament: "Intelligent",
+      activity: "Herding",
+    },
+    {
+      breed: "Great Dane",
+      size: "Large",
+      color: "Blue",
+      age: "Adult",
+      temperament: "Friendly",
+      activity: "Sleeping",
+    },
+    {
+      breed: "Maltese",
+      size: "Small",
+      color: "White",
+      age: "Puppy",
+      temperament: "Playful",
+      activity: "Walking",
+    },
+    {
+      breed: "Pug",
+      size: "Small",
+      color: "Fawn",
+      age: "Adult",
+      temperament: "Charming",
+      activity: "Sleeping",
+    },
+    {
+      breed: "Australian Shepherd",
+      size: "Medium",
+      color: "Merle",
+      age: "Adult",
+      temperament: "Energetic",
+      activity: "Herding",
+    },
+    {
+      breed: "Cocker Spaniel",
+      size: "Medium",
+      color: "Golden",
+      age: "Adult",
+      temperament: "Friendly",
+      activity: "Running",
+    },
+    {
+      breed: "Bearded Collie",
+      size: "Medium",
+      color: "Gray and White",
+      age: "Puppy",
+      temperament: "Friendly",
+      activity: "Running",
+    },
+    {
+      breed: "Bichon Frise",
+      size: "Small",
+      color: "White",
+      age: "Puppy",
+      temperament: "Cheerful",
+      activity: "Walking",
+    },
+    {
+      breed: "Labrador Retriever",
+      size: "Large",
+      color: "Yellow",
+      age: "Adult",
+      temperament: "Friendly",
+      activity: "Running",
+    },
+    {
+      breed: "Schnauzer",
+      size: "Medium",
+      color: "Salt and Pepper",
+      age: "Senior",
+      temperament: "Alert",
+      activity: "Walking",
+    },
+    {
+      breed: "Pitbull",
+      size: "Medium",
+      color: "Blue",
+      age: "Adult",
+      temperament: "Loyal",
+      activity: "Running",
+    },
+    {
+      breed: "Jack Russell Terrier",
+      size: "Small",
+      color: "White and Black",
+      age: "Puppy",
+      temperament: "Energetic",
+      activity: "Running",
+    },
+    {
+      breed: "Havanese",
+      size: "Small",
+      color: "Cream",
+      age: "Adult",
+      temperament: "Friendly",
+      activity: "Walking",
+    },
+    {
+      breed: "Basset Hound",
+      size: "Medium",
+      color: "Tan and White",
+      age: "Senior",
+      temperament: "Calm",
+      activity: "Sleeping",
+    },
+    {
+      breed: "Chow Chow",
+      size: "Medium",
+      color: "Red",
+      age: "Adult",
+      temperament: "Independent",
+      activity: "Walking",
+    },
+    {
+      breed: "Basenji",
+      size: "Medium",
+      color: "Red and White",
+      age: "Adult",
+      temperament: "Independent",
+      activity: "Running",
+    },
+    {
+      breed: "Saluki",
+      size: "Large",
+      color: "Cream",
+      age: "Adult",
+      temperament: "Independent",
+      activity: "Running",
+    },
+    {
+      breed: "Italian Greyhound",
+      size: "Small",
+      color: "Blue",
+      age: "Puppy",
+      temperament: "Friendly",
+      activity: "Running",
+    },
+    {
+      breed: "Whippet",
+      size: "Medium",
+      color: "Fawn",
+      age: "Adult",
+      temperament: "Calm",
+      activity: "Running",
+    },
   ];
 
   // Hàm lọc giống chó theo các đặc điểm được chọn
@@ -128,6 +331,7 @@ const DogBreedFilter = () => {
   return (
     <ScreenWrapper>
       <ScrollView style={styles.container}>
+        <BackButton router={router} />
         <Text style={styles.title}>Lọc Giống Chó Theo Đặc Điểm</Text>
 
         {/* Chọn kích thước chó */}

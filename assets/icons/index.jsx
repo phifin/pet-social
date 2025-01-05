@@ -22,6 +22,7 @@ import Delete from "./Delete";
 import Logout from "./logout";
 import Image from "./Image";
 import Video from "./Video";
+import FilterIcon from "./Filter";
 
 const icons = {
   home: Home,
@@ -45,6 +46,7 @@ const icons = {
   logout: Logout,
   image: Image,
   video: Video,
+  filter: FilterIcon,
 };
 
 const Icon = ({ name, ...props }) => {
