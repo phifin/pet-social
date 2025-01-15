@@ -9,6 +9,7 @@ LogBox.ignoreLogs([
   "Warning: TNodeChildrenRenderer",
   "Warning: MemoizedTNodeRenderer",
   "Warning: TRenderEngineProvider",
+  "Warning: Text strings must be rendered within a <Text> component",
 ]);
 
 const _layout = () => {

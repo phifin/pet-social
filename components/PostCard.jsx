@@ -14,6 +14,8 @@ import { Video } from "expo-av";
 import * as Sharing from "expo-sharing";
 import { useRouter } from "expo-router";
 import Loading from "./Loading";
+import { useEvent } from "expo";
+import { useVideoPlayer, VideoView } from "expo-video";
 
 const textStyle = {
   color: theme.colors.dark,
@@ -38,6 +40,9 @@ const PostCard = ({
   router,
   hasShadow = true,
   showMoreIcon = true,
+  showDelete = false,
+  onDelete = () => {},
+  onEdit = () => {},
 }) => {
   // Kiểm tra item có tồn tại hay không
   if (!item) {
@@ -102,6 +107,21 @@ const PostCard = ({
     }
   };
 
+  const handlePostDelete = () => {
+    Alert.alert("Confirm", "Are you sure you want to do this?", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("modal cancelled"),
+        style: "cancel",
+      },
+      {
+        text: "Delete",
+        onPress: () => onDelete(item),
+        style: "destructive",
+      },
+    ]);
+  };
+
   const onShare = async () => {
     try {
       setLoading(true);
@@ -156,6 +176,17 @@ const PostCard = ({
             />
           </TouchableOpacity>
         )}
+
+        {showDelete && currentUser.id === item?.userId && (
+          <View style={styles.actions}>
+            <TouchableOpacity onPress={() => onEdit(item)}>
+              <Icon name="edit" size={hp(2.5)} color={theme.colors.text} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handlePostDelete}>
+              <Icon name="delete" size={hp(2.5)} color={theme.colors.rose} />
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
 
       <View style={styles.content}>
@@ -179,12 +210,19 @@ const PostCard = ({
         )}
 
         {item?.file && item?.file.includes("postVideos") && (
-          <Video
+          <VideoView
             style={[styles.postMedia, { height: hp(30) }]}
-            source={{ uri: getSupabaseFileUrl(item?.file) }}
-            useNativeControls
-            resizeMode="cover"
-            isLooping
+            // source={{ uri: getSupabaseFileUrl(item?.file) }}
+            player={useVideoPlayer(
+              "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+              (player) => {
+                player.loop = true;
+                player.play();
+              }
+            )}
+            allowsFullscreen
+            allowsPictureInPicture
+            contentFit="cover"
           />
         )}
 

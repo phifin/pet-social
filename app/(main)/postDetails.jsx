@@ -123,6 +123,21 @@ const PostDetails = () => {
     );
   }
 
+  const onDeletePost = async (item) => {
+    // delete post here
+    let res = await removePost(post.id);
+
+    if (res.success) {
+      router.back();
+    } else {
+      Alert.alert("Post", res.msg);
+    }
+  };
+  const onEditPost = async (item) => {
+    router.back();
+    router.push({ pathname: "newPost", params: { ...item } });
+  };
+
   if (!post) {
     return (
       <View
@@ -148,6 +163,9 @@ const PostDetails = () => {
           router={router}
           hasShadow={false}
           showMoreIcon={false}
+          showDelete={true}
+          onDelete={onDeletePost}
+          onEdit={onEditPost}
         />
 
         {/* cmt */}
