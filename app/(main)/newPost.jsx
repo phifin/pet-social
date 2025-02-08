@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { wp, hp } from "../../helpers/common";
 import { theme } from "../../constants/theme";
 import { useAuth } from "../../contexts/AuthContext";

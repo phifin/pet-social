@@ -7,7 +7,12 @@ import { format } from "date-fns";
 import Icon from "../assets/icons";
 import { Alert } from "react-native";
 
-const CommentItem = ({ item, canDelete = false, onDelete = () => {} }) => {
+const CommentItem = ({
+  item,
+  canDelete = false,
+  onDelete = () => {},
+  highlight,
+}) => {
   const createdAt = format(new Date(item?.created_at), "MMM d");
 
   const handleDelete = () => {
@@ -28,7 +33,7 @@ const CommentItem = ({ item, canDelete = false, onDelete = () => {} }) => {
     <View style={styles.container}>
       <Avatar uri={item?.user?.image} />
 
-      <View style={styles.content}>
+      <View style={[styles.content, highlight && styles.highlight]}>
         <View
           style={{
             flexDirection: "row",

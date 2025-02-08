@@ -22,6 +22,7 @@ const Home = () => {
   const router = useRouter();
   const [posts, setPosts] = useState([]);
   const [hasMore, setHasMore] = useState(true);
+  const [notificationCount, setNotificationCount] = useState(0);
 
   const handlePostEvent = async (payload) => {
     if (payload.eventType === "INSERT" && payload?.new?.id) {
@@ -56,6 +57,14 @@ const Home = () => {
     }
   };
 
+  const handleNewNotification = async (payload) => {
+    // console.log("got new notification:", payload);
+
+    if (payload.eventType === "INSERT" && payload.new.id) {
+      setNotificationCount((prev) => prev + 1);
+    }
+  };
+
   useEffect(() => {
     let postChannel = supabase
       .channel("posts")
@@ -67,9 +76,23 @@ const Home = () => {
       .subscribe();
 
     // getPosts();
+    let notificationChannel = supabase
+      .channel("notifications")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "notifications",
+          filter: `receiverId=eq.${user.id}`,
+        },
+        handleNewNotification
+      )
+      .subscribe();
 
     return () => {
       supabase.removeChannel(postChannel);
+      supabase.removeChannel(notificationChannel);
     };
   }, []);
 
@@ -98,13 +121,24 @@ const Home = () => {
                 color={theme.colors.text}
               />
             </Pressable>
-            <Pressable onPress={() => router.push("dogRanking")}>
+            <Pressable
+              onPress={() => {
+                setNotificationCount(0);
+                router.push("notifications");
+              }}
+            >
               <Icon
                 name="heart"
                 size={hp(3.2)}
                 strokeWidth={2}
                 color={theme.colors.text}
               />
+
+              {notificationCount > 0 && (
+                <View style={styles.pill}>
+                  <Text style={styles.pillText}>{notificationCount}</Text>
+                </View>
+              )}
             </Pressable>
             <Pressable onPress={() => router.push("petCalendar")}>
               <Icon

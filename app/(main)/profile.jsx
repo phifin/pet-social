@@ -18,6 +18,8 @@ import Icon from "../../assets/icons";
 import { theme } from "../../constants/theme";
 import Avatar from "../../components/Avatar";
 import { fetchPosts } from "../../services/postService";
+import Loading from "../../components/Loading";
+import PostCard from "../../components/PostCard";
 
 var limit = 0;
 
