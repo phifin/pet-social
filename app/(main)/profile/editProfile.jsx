@@ -1,17 +1,17 @@
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
-import ScreenWrapper from "../../components/ScreenWrapper";
-import Header from "../../components/Header";
-import { wp, hp } from "../../helpers/common";
-import { theme } from "../../constants/theme";
+import ScreenWrapper from "../../../components/ScreenWrapper";
+import Header from "../../../components/Header";
+import { wp, hp } from "../../../helpers/common";
+import { theme } from "../../../constants/theme";
 import { Image } from "expo-image";
-import { useAuth } from "../../contexts/AuthContext";
-import { getUserImageSrc, uploadFile } from "../../services/imageService";
-import Icon from "../../assets/icons";
-import Input from "../../components/Input";
-import Button from "../../components/Button";
+import { useAuth } from "../../../contexts/AuthContext";
+import { getUserImageSrc, uploadFile } from "../../../services/imageService";
+import Icon from "../../../assets/icons";
+import Input from "../../../components/Input";
+import Button from "../../../components/Button";
 import { Alert } from "react-native";
-import { updateUSerData } from "../../services/userService";
+import { updateUSerData } from "../../../services/userService";
 import { useRouter } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
 const EditProfile = () => {

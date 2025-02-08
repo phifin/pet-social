@@ -7,9 +7,9 @@ import {
   FlatList,
   ScrollView,
 } from "react-native";
-import ScreenWrapper from "../../components/ScreenWrapper";
+import ScreenWrapper from "../../../components/ScreenWrapper";
 import { useRouter } from "expo-router";
-import BackButton from "../../components/BackButton";
+import BackButton from "../../../components/BackButton";
 
 const DogBreedFilter = () => {
   const [selectedSize, setSelectedSize] = useState(null);

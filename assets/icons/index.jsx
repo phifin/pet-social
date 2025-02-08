@@ -19,7 +19,7 @@ import Comment from "./Comment";
 import Share from "./Share";
 import Send from "./Send";
 import Delete from "./Delete";
-import Logout from "./logout";
+import Logout from "./Logout";
 import Image from "./Image";
 import Video from "./Video";
 import FilterIcon from "./Filter";
@@ -49,8 +49,30 @@ const icons = {
   filter: FilterIcon,
 };
 
+// const Icon = ({ name, ...props }) => {
+//   const IconComponent = icons[name];
+//   return (
+//     <IconComponent
+//       height={props.size || 24}
+//       width={props.size || 24}
+//       strokeWidth={props.strokeWidth || 1.9}
+//       color={theme.colors.textLight}
+//       {...props}
+//     />
+//   );
+// };
+
 const Icon = ({ name, ...props }) => {
+  // console.log("Icon requested:", name); // Debug 1
   const IconComponent = icons[name];
+
+  // console.log("Found Icon Component:", IconComponent); // Debug 2
+
+  if (!IconComponent) {
+    console.warn(`Icon "${name}" không tồn tại.`);
+    return null;
+  }
+
   return (
     <IconComponent
       height={props.size || 24}

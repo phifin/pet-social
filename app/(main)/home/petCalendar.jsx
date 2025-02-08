@@ -7,8 +7,8 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
-import petBook from "../../assets/petBook.json"; // Import file JSON
-import BackButton from "../../components/BackButton";
+import petBook from "../../../assets/petBook.json"; // Import file JSON
+import BackButton from "../../../components/BackButton";
 import { useRouter } from "expo-router";
 
 export default function App() {

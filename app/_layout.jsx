@@ -21,7 +21,7 @@ const _layout = () => {
 };
 
 const MainLayout = () => {
-  const { setAuth, setUserData } = useAuth();
+  const { user, setAuth, setUserData } = useAuth();
   const router = useRouter(); // Ensure router is correctly imported
 
   useEffect(() => {
@@ -32,10 +32,10 @@ const MainLayout = () => {
         if (session) {
           setAuth(session?.user);
           updateUserData(session?.user, session?.user?.email);
-          router.replace("/home");
+          router.replace("(main)/home");
         } else {
           setAuth(null);
-          router.replace("/welcome");
+          router.replace("(main)/welcome");
         }
       }
     );
@@ -49,11 +49,9 @@ const MainLayout = () => {
   };
 
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-      }}
-    />
+    <Stack screenOptions={{ headerShown: false }}>
+      {user ? <Stack.Screen name="(main)" /> : <Stack.Screen name="(auth)" />}
+    </Stack>
   );
 };
 

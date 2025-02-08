@@ -8,18 +8,18 @@ import {
   View,
 } from "react-native";
 import React, { useState } from "react";
-import ScreenWrapper from "../../components/ScreenWrapper";
-import { useAuth } from "../../contexts/AuthContext";
+import ScreenWrapper from "../../../components/ScreenWrapper";
+import { useAuth } from "../../../contexts/AuthContext";
 import { useRouter } from "expo-router";
-import Header from "../../components/Header";
-import { hp, wp } from "../../helpers/common";
-import { supabase } from "../../lib/supabase";
-import Icon from "../../assets/icons";
-import { theme } from "../../constants/theme";
-import Avatar from "../../components/Avatar";
-import { fetchPosts } from "../../services/postService";
-import Loading from "../../components/Loading";
-import PostCard from "../../components/PostCard";
+import Header from "../../../components/Header";
+import { hp, wp } from "../../../helpers/common";
+import { supabase } from "../../../lib/supabase";
+import Icon from "../../../assets/icons";
+import { theme } from "../../../constants/theme";
+import Avatar from "../../../components/Avatar";
+import { fetchPosts } from "../../../services/postService";
+import Loading from "../../../components/Loading";
+import PostCard from "../../../components/PostCard";
 
 var limit = 0;
 
@@ -123,7 +123,7 @@ const UserHeader = ({ user, router, handleLogout }) => {
                 name="edit"
                 strokeWidth={2.5}
                 size={20}
-                onPress={() => router.push("editProfile")}
+                onPress={() => router.push("(main)/profile/editProfile")}
               />
             </Pressable>
           </View>

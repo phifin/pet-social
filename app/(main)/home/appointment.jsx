@@ -8,9 +8,9 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import ScreenWrapper from "../../components/ScreenWrapper"; // Giả sử bạn có một ScreenWrapper component
+import ScreenWrapper from "../../../components/ScreenWrapper"; // Giả sử bạn có một ScreenWrapper component
 import { useRouter } from "expo-router";
-import BackButton from "../../components/BackButton";
+import BackButton from "../../../components/BackButton";
 
 const AppointmentManager = () => {
   const [dogList] = useState([

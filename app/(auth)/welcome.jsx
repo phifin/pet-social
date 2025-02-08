@@ -1,10 +1,10 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import ScreenWrapper from "../components/ScreenWrapper";
+import ScreenWrapper from "../../components/ScreenWrapper";
 import { StatusBar } from "expo-status-bar";
-import { hp, wp } from "../helpers/common";
-import { theme } from "../constants/theme";
-import Button from "../components/Button";
+import { hp, wp } from "../../helpers/common";
+import { theme } from "../../constants/theme";
+import Button from "../../components/Button";
 import { useRouter } from "expo-router";
 
 const Welcome = () => {
@@ -16,7 +16,7 @@ const Welcome = () => {
         <Image
           style={styles.welcomeImage}
           resizeMode="contain"
-          source={require("../assets/images/welcome.png")}
+          source={require("../../assets/images/welcome.png")}
         />
 
         <View style={{ gap: 20 }}>

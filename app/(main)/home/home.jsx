@@ -1,19 +1,19 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
-import ScreenWrapper from "../../components/ScreenWrapper";
-import { useAuth } from "../../contexts/AuthContext";
-import { hp } from "../../helpers/common";
-import { wp } from "../../helpers/common";
-import { theme } from "../../constants/theme";
-import Icon from "../../assets/icons";
+import ScreenWrapper from "../../../components/ScreenWrapper";
+import { useAuth } from "../../../contexts/AuthContext";
+import { hp } from "../../../helpers/common";
+import { wp } from "../../../helpers/common";
+import { theme } from "../../../constants/theme";
 import { useRouter } from "expo-router";
-import Avatar from "../../components/Avatar";
-import { fetchPosts } from "../../services/postService";
+import Avatar from "../../../components/Avatar";
+import { fetchPosts } from "../../../services/postService";
 import { FlatList } from "react-native";
-import PostCard from "../../components/PostCard";
-import Loading from "../../components/Loading";
-import { supabase } from "../../lib/supabase";
-import { getUSerData } from "../../services/userService";
+import PostCard from "../../../components/PostCard";
+import Loading from "../../../components/Loading";
+import { supabase } from "../../../lib/supabase";
+import { getUSerData } from "../../../services/userService";
+import Icon from "../../../assets/icons";
 
 var limit = 10;
 
@@ -113,7 +113,7 @@ const Home = () => {
         <View style={styles.header}>
           <Text style={styles.title}>PeTea</Text>
           <View style={styles.icons}>
-            <Pressable onPress={() => router.push("dogFilter")}>
+            <Pressable onPress={() => router.push("(main)/home/dogFilter")}>
               <Icon
                 name="filter"
                 size={hp(3.2)}
@@ -124,7 +124,7 @@ const Home = () => {
             <Pressable
               onPress={() => {
                 setNotificationCount(0);
-                router.push("notifications");
+                router.push("(main)/home/notifications");
               }}
             >
               <Icon
@@ -140,7 +140,7 @@ const Home = () => {
                 </View>
               )}
             </Pressable>
-            <Pressable onPress={() => router.push("petCalendar")}>
+            <Pressable onPress={() => router.push("(main)/home/petCalendar")}>
               <Icon
                 name="search"
                 size={hp(3.2)}
@@ -148,7 +148,7 @@ const Home = () => {
                 color={theme.colors.text}
               />
             </Pressable>
-            <Pressable onPress={() => router.push("newPost")}>
+            <Pressable onPress={() => router.push("(main)/home/newPost")}>
               <Icon
                 name="plus"
                 size={hp(3.2)}
@@ -156,14 +156,14 @@ const Home = () => {
                 color={theme.colors.text}
               />
             </Pressable>
-            <Pressable onPress={() => router.push("profile")}>
+            {/* <Pressable onPress={() => router.push("(main)/home/profile")}>
               <Avatar
                 uri={user?.image}
                 size={hp(4.3)}
                 rounded={theme.radius.sm}
                 style={{ borderWidth: 2 }}
               />
-            </Pressable>
+            </Pressable> */}
           </View>
         </View>
 

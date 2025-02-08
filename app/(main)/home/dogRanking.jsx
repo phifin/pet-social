@@ -6,9 +6,9 @@ import {
   StyleSheet,
   FlatList,
 } from "react-native";
-import ScreenWrapper from "../../components/ScreenWrapper";
+import ScreenWrapper from "../../../components/ScreenWrapper";
 import { useRouter } from "expo-router";
-import BackButton from "../../components/BackButton";
+import BackButton from "../../../components/BackButton";
 
 const dogRanking = () => {
   const [selectedBreed, setSelectedBreed] = useState(null);
