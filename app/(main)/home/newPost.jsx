@@ -24,20 +24,8 @@ import { Pressable } from "react-native";
 import { Video } from "expo-av";
 import { createOrUpdatePost } from "../../../services/postService";
 import { useVideoPlayer, VideoView } from "expo-video";
-import { useNavigation } from "expo-router";
-import { useLayoutEffect } from "react";
-import { useCallback } from "react";
 
 const NewPost = () => {
-  const navigation = useNavigation();
-
-  useFocusEffect(
-    useCallback(() => {
-      navigation.setOptions({ tabBarStyle: { display: "none" } });
-
-      return () => navigation.setOptions({ tabBarStyle: { display: "flex" } });
-    }, [navigation])
-  );
   const post = useLocalSearchParams();
   const { user } = useAuth();
   const bodyRef = useRef("");
@@ -73,8 +61,10 @@ const NewPost = () => {
 
     let result = await ImagePicker.launchImageLibraryAsync(mediaConfig);
 
-    if (!result.canceled) {
-      setFile(result.assets[0]);
+    if (!result.canceled && result.assets.length > 0) {
+      setFile((prev) =>
+        prev?.uri === result.assets[0].uri ? prev : result.assets[0]
+      );
     }
   };
   const onSubmit = async () => {
