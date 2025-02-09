@@ -44,7 +44,8 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   text: {
-    fontSize: 8,
+    fontSize: 9,
+    alignSelf: "center",
   },
 });
 
