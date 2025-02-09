@@ -51,7 +51,10 @@ const PostCard = ({
 
   const openPostDetails = () => {
     if (!showMoreIcon) return null;
-    router.push({ pathname: "postDetails", params: { postId: item?.id } });
+    router.push({
+      pathname: "/(main)/home/postDetails",
+      params: { postId: item?.id },
+    });
   };
 
   const createdAt = item?.created_at
@@ -213,13 +216,10 @@ const PostCard = ({
           <VideoView
             style={[styles.postMedia, { height: hp(30) }]}
             // source={{ uri: getSupabaseFileUrl(item?.file) }}
-            player={useVideoPlayer(
-              "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-              (player) => {
-                player.loop = true;
-                player.play();
-              }
-            )}
+            player={useVideoPlayer(getSupabaseFileUrl(item?.file), (player) => {
+              player.loop = true;
+              player.play();
+            })}
             allowsFullscreen
             allowsPictureInPicture
             contentFit="cover"

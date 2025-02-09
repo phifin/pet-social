@@ -1,14 +1,23 @@
-import { Tabs } from "expo-router";
+import { Tabs, useSegments } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import TabBar from "../../components/TabBar";
 
 export default function TabsLayout() {
+  const segments = useSegments(); // Lấy đường dẫn hiện tại
+
+  const hiddenRoutes = ["newPost", "dogFilter", "notifications"];
+
+  // Kiểm tra nếu đang ở màn hình cần ẩn tabBar
+  const hideTabBar = segments.some((segment) => hiddenRoutes.includes(segment));
+
   return (
     <Tabs
-      tabBar={(props) => <TabBar {...props} />}
+      tabBar={(props) => (hideTabBar ? null : <TabBar {...props} />)}
       screenOptions={{
         headerShown: false,
-        tabBarStyle: { backgroundColor: "#fff", height: 60 },
+        tabBarStyle: hideTabBar
+          ? { display: "none" }
+          : { backgroundColor: "#fff", height: 60 },
         tabBarLabelStyle: { fontSize: 12 },
         tabBarActiveTintColor: "#007AFF",
       }}

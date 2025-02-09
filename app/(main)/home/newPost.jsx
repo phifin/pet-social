@@ -8,7 +8,12 @@ import ScreenWrapper from "../../../components/ScreenWrapper";
 import Header from "../../../components/Header";
 import { ScrollView } from "react-native";
 import RichTextEditor from "../../../components/RichTextEditor";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import {
+  Stack,
+  useFocusEffect,
+  useLocalSearchParams,
+  useRouter,
+} from "expo-router";
 import { TouchableOpacity } from "react-native";
 import Icon from "../../../assets/icons";
 import Button from "../../../components/Button";
@@ -18,8 +23,21 @@ import { getSupabaseFileUrl } from "../../../services/imageService";
 import { Pressable } from "react-native";
 import { Video } from "expo-av";
 import { createOrUpdatePost } from "../../../services/postService";
+import { useVideoPlayer, VideoView } from "expo-video";
+import { useNavigation } from "expo-router";
+import { useLayoutEffect } from "react";
+import { useCallback } from "react";
 
 const NewPost = () => {
+  const navigation = useNavigation();
+
+  useFocusEffect(
+    useCallback(() => {
+      navigation.setOptions({ tabBarStyle: { display: "none" } });
+
+      return () => navigation.setOptions({ tabBarStyle: { display: "flex" } });
+    }, [navigation])
+  );
   const post = useLocalSearchParams();
   const { user } = useAuth();
   const bodyRef = useRef("");
@@ -82,7 +100,7 @@ const NewPost = () => {
       setFile(null);
       bodyRef.current = "";
       editorRef.current?.setContentHTML("");
-      router.back();
+      router.push("(main)/home");
     } else {
       Alert.alert("Post", res.msg);
     }
@@ -111,73 +129,92 @@ const NewPost = () => {
     }
     return getSupabaseFileUrl(file)?.uri;
   };
+
+  const player = useVideoPlayer(getFileUri(file), (player) => {
+    player.loop = true;
+    player.play();
+  });
   return (
-    <ScreenWrapper bg="white">
-      <View style={styles.container}>
-        <Header title="Create Post" />
-        <ScrollView contentContainerStyle={{ gap: 20 }}>
-          <View style={styles.header}>
-            <Avatar
-              uri={user?.image}
-              size={hp(6.5)}
-              rounded={theme.radius.xl}
-            />
-            <View style={{ gap: 2 }}>
-              <Text style={styles.username}>{user && user.name}</Text>
-              <Text style={styles.publicText}>Public</Text>
+    <>
+      <Stack.Screen options={{ tabBarStyle: { display: "none" } }} />
+      <ScreenWrapper bg="white">
+        <View style={styles.container}>
+          <Header title="Create Post" />
+          <ScrollView contentContainerStyle={{ gap: 20 }}>
+            <View style={styles.header}>
+              <Avatar
+                uri={user?.image}
+                size={hp(6.5)}
+                rounded={theme.radius.xl}
+              />
+              <View style={{ gap: 2 }}>
+                <Text style={styles.username}>{user && user.name}</Text>
+                <Text style={styles.publicText}>Public</Text>
+              </View>
             </View>
-          </View>
-          <View style={styles.textEditor}>
-            <RichTextEditor
-              editorRef={editorRef}
-              onChange={(body) => (bodyRef.current = body)}
-            />
-          </View>
+            <View style={styles.textEditor}>
+              <RichTextEditor
+                editorRef={editorRef}
+                onChange={(body) => (bodyRef.current = body)}
+              />
+            </View>
 
-          {file && (
-            <View style={styles.file}>
-              {getFileType(file) === "video" ? (
-                <Video
-                  style={{ flex: 1 }}
-                  source={{ uri: getFileUri(file) }}
-                  useNativeControls
-                  resizeMode="cover"
-                  isLooping
-                ></Video>
-              ) : (
-                <Image
-                  source={{ uri: getFileUri(file) }}
-                  contentFit=""
-                  style={{ flex: 1 }}
-                />
-              )}
-              <Pressable style={styles.closeIcon} onPress={() => setFile(null)}>
-                <Icon name="delete" size={20} color="white" />
-              </Pressable>
-            </View>
-          )}
+            {file && (
+              <View style={styles.file}>
+                {getFileType(file) === "video" ? (
+                  // <Video
+                  //   style={{ flex: 1 }}
+                  //   source={{ uri: getFileUri(file) }}
+                  //   useNativeControls
+                  //   resizeMode="cover"
+                  //   isLooping
+                  // ></Video>
+                  <VideoView
+                    style={{ flex: 1 }}
+                    // source={{ uri: getSupabaseFileUrl(item?.file) }}
+                    player={player}
+                    allowsFullscreen
+                    allowsPictureInPicture
+                    contentFit="cover"
+                  />
+                ) : (
+                  <Image
+                    source={{ uri: getFileUri(file) }}
+                    contentFit=""
+                    style={{ flex: 1 }}
+                  />
+                )}
+                <Pressable
+                  style={styles.closeIcon}
+                  onPress={() => setFile(null)}
+                >
+                  <Icon name="delete" size={20} color="white" />
+                </Pressable>
+              </View>
+            )}
 
-          <View style={styles.media}>
-            <Text style={styles.addImageText}>Add to your post</Text>
-            <View style={styles.mediaIcons}>
-              <TouchableOpacity onPress={() => onPick(true)}>
-                <Icon name="image" size={30} color={theme.colors.dark} />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => onPick(false)}>
-                <Icon name="video" size={33} color={theme.colors.dark} />
-              </TouchableOpacity>
+            <View style={styles.media}>
+              <Text style={styles.addImageText}>Add to your post</Text>
+              <View style={styles.mediaIcons}>
+                <TouchableOpacity onPress={() => onPick(true)}>
+                  <Icon name="image" size={30} color={theme.colors.dark} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => onPick(false)}>
+                  <Icon name="video" size={33} color={theme.colors.dark} />
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </ScrollView>
-        <Button
-          buttonStyle={{ height: hp(6.2) }}
-          title={post && post.id ? "Update" : "Post"}
-          loading={loading}
-          hasShadow={false}
-          onPress={onSubmit}
-        />
-      </View>
-    </ScreenWrapper>
+          </ScrollView>
+          <Button
+            buttonStyle={{ height: hp(6.2) }}
+            title={post && post.id ? "Update" : "Post"}
+            loading={loading}
+            hasShadow={false}
+            onPress={onSubmit}
+          />
+        </View>
+      </ScreenWrapper>
+    </>
   );
 };
 
