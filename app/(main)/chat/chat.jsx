@@ -50,12 +50,14 @@ export default function ChatScreen() {
             },
           };
 
-          // 🔥 Kiểm tra nếu tin nhắn đã tồn tại thì không thêm lại
-          setMessages((prevMessages) =>
-            prevMessages.some((msg) => msg._id === newMsg._id)
-              ? prevMessages
-              : GiftedChat.append(prevMessages, [newMsg])
-          );
+          // 🔥 Chỉ thêm tin nhắn nếu nó không phải do chính user hiện tại gửi
+          if (newMsg.user._id !== user.id) {
+            setMessages((prevMessages) =>
+              prevMessages.some((msg) => msg._id === newMsg._id)
+                ? prevMessages
+                : GiftedChat.append(prevMessages, [newMsg])
+            );
+          }
         };
 
         chatChannel.on("message.new", handleNewMessage);
@@ -75,19 +77,32 @@ export default function ChatScreen() {
     };
   }, [user, userId]);
 
-  // ✅ Fix gửi tin nhắn bị trùng lặp
+  // ✅ Chỉ cập nhật state sau khi gửi thành công, tránh gửi trùng lặp
   const onSend = useCallback(
     async (newMessages = []) => {
       const message = newMessages[0];
 
-      // 🔥 Chỉ cập nhật state sau khi gửi thành công
-      await channel.sendMessage({ text: message.text });
+      try {
+        const sentMessage = await channel.sendMessage({ text: message.text });
 
-      setMessages((prevMessages) =>
-        prevMessages.some((msg) => msg._id === message._id)
-          ? prevMessages
-          : GiftedChat.append(prevMessages, newMessages)
-      );
+        // Chỉ cập nhật state với tin nhắn đã gửi thành công
+        const newMsg = {
+          _id: sentMessage.message.id,
+          text: sentMessage.message.text,
+          createdAt: new Date(sentMessage.message.created_at),
+          user: {
+            _id: sentMessage.message.user.id,
+            name: sentMessage.message.user.name,
+            avatar: sentMessage.message.user.image,
+          },
+        };
+
+        setMessages((prevMessages) =>
+          GiftedChat.append(prevMessages, [newMsg])
+        );
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
     },
     [channel]
   );
