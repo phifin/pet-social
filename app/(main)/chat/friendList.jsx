@@ -30,7 +30,7 @@ export default function ChatListScreen() {
         borderBottomWidth: 1,
         borderBottomColor: "#ddd",
       }}
-      onPress={() => router.push(`/chat/${item.id}`)} // Điều hướng đến màn hình chat
+      onPress={() => router.push(`/(main)/chat/chat/${item.id}`)} // Điều hướng đến màn hình chat
     >
       <Image
         source={{ uri: item.image || "https://via.placeholder.com/50" }}
