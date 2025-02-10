@@ -32,7 +32,7 @@ const NewPost = () => {
   const editorRef = useRef(null);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [file, setFile] = useState(file);
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     if (post && post.id) {

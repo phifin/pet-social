@@ -40,7 +40,7 @@ const Profile = () => {
   const getPosts = async () => {
     if (!hasMore) return null;
 
-    limit = limit + 12;
+    limit = limit + 8;
     let res = await fetchPosts(limit, user.id);
     if (res.success) {
       if (posts.length === res.data.length) setHasMore(false);

@@ -35,7 +35,7 @@ const MainLayout = () => {
           router.replace("(main)/home");
         } else {
           setAuth(null);
-          router.replace("(main)/welcome");
+          router.replace("(auth)/welcome");
         }
       }
     );

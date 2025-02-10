@@ -3,14 +3,21 @@ import React from "react";
 import { theme } from "../constants/theme";
 import { hp } from "../helpers/common";
 import Avatar from "./Avatar";
-import moment from "moment";
-
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 const NotificationItem = ({ item, router }) => {
-  const createdAt = moment(item?.created_at).format("MMM d");
+  const createdAt = format(new Date(item?.created_at), "d MMM", {
+    locale: enUS,
+  });
   const handleClick = () => {
     // open post details
     let { postId, commentId } = JSON.parse(item?.data);
-    router.push({ pathname: "postDetails", params: { postId, commentId } });
+    console.log("item", item);
+    router.push({
+      pathname: "home/postDetails",
+      params: { postId, commentId },
+    });
   };
   return (
     <TouchableOpacity style={styles.container} onPress={handleClick}>
