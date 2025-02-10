@@ -1,3 +1,3 @@
-import chat from "./chat";
+import ChatListScreen from "./friendList";
 
-export default chat;
+export default ChatListScreen;

@@ -1,14 +1,45 @@
+import { useEffect } from "react";
 import { Tabs, useSegments } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import TabBar from "../../components/TabBar";
+import { chatClient } from "../../services/streamChat";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function TabsLayout() {
   const segments = useSegments(); // Lấy đường dẫn hiện tại
+  const { user } = useAuth(); // Lấy thông tin user từ context
 
   const hiddenRoutes = ["newPost", "dogFilter", "notifications"];
-
-  // Kiểm tra nếu đang ở màn hình cần ẩn tabBar
   const hideTabBar = segments.some((segment) => hiddenRoutes.includes(segment));
+
+  useEffect(() => {
+    // Nếu có user, kết nối Stream Chat
+    if (user) {
+      const connectChat = async () => {
+        try {
+          await chatClient.connectUser(
+            {
+              id: user.id,
+              name: user.name,
+              image: user.image,
+            },
+            chatClient.devToken(user.id) // Token từ backend
+          );
+          console.log("Stream Chat connected!");
+        } catch (error) {
+          console.error("Stream Chat connection error:", error);
+        }
+      };
+      connectChat();
+    }
+
+    return () => {
+      if (chatClient.userID) {
+        chatClient.disconnectUser();
+        console.log("Stream Chat disconnected!");
+      }
+    };
+  }, [user]);
 
   return (
     <Tabs
