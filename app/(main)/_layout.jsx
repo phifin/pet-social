@@ -11,7 +11,7 @@ export default function TabsLayout() {
   const segments = useSegments(); // Lấy đường dẫn hiện tại
   const { user } = useAuth(); // Lấy thông tin user từ context
 
-  const hiddenRoutes = ["newPost", "dogFilter", "notifications"];
+  const hiddenRoutes = ["newPost", "dogFilter", "notifications", "chat"];
   const hideTabBar = segments.some((segment) => hiddenRoutes.includes(segment));
 
   const fetchToken = async (userId) => {
