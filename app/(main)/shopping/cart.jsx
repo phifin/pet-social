@@ -8,11 +8,16 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCart } from "../../../services/productService";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useRouter } from "expo-router";
-
+import {
+  checkout,
+  finishPayment,
+  createPaymentUrl,
+} from "../../../services/productService";
+import { Linking } from "react-native";
 const CartScreen = () => {
   const { user } = useAuth();
   const router = useRouter();
@@ -54,13 +59,65 @@ const CartScreen = () => {
   );
 
   // Xử lý thanh toán
-  const handleCompletePayment = () => {
-    Alert.alert(
-      "✅ Thanh toán thành công",
-      `Bạn đã chọn phương thức: ${
-        paymentMethod === "cod" ? "Ship COD" : "Online Payment"
-      }.\nTổng tiền: $${totalPrice.toFixed(2)}`
-    );
+  const queryClient = useQueryClient();
+  const handleCompletePayment = async () => {
+    try {
+      // Gọi API checkout để tạo đơn hàng
+      const checkoutResponse = await checkout({
+        userId: user.id,
+        cartItems: cartData.cartItems.map((item) => item.id),
+      });
+
+      if (!checkoutResponse || !checkoutResponse.id) {
+        Alert.alert("Lỗi", "Không thể tạo đơn hàng. Vui lòng thử lại.");
+        return;
+      }
+
+      const orderId = checkoutResponse.id;
+
+      if (paymentMethod === "cod") {
+        // Nếu chọn Ship COD, gọi API finishPayment
+        await finishPayment({
+          orderId: orderId,
+          paymentMethod: 0,
+        });
+
+        Alert.alert(
+          "✅ Thanh toán thành công",
+          "Đơn hàng đã được đặt thành công!"
+        );
+
+        // Cập nhật lại giỏ hàng sau khi thanh toán xong
+        queryClient.invalidateQueries(["cart", user.id]);
+      } else {
+        // Nếu chọn thanh toán online, gọi API createPaymentUrl
+        const paymentUrlResponse = await createPaymentUrl({
+          money: totalPrice,
+          orderId: orderId,
+        });
+
+        if (paymentUrlResponse?.data) {
+          // Redirect người dùng đến trang thanh toán
+          Linking.openURL(paymentUrlResponse.data);
+
+          // Khi người dùng quay lại app sau thanh toán online -> refetch giỏ hàng
+          Linking.addEventListener("url", () => {
+            queryClient.invalidateQueries(["cart", user.id]);
+          });
+        } else {
+          Alert.alert(
+            "Lỗi",
+            "Không thể tạo link thanh toán. Vui lòng thử lại."
+          );
+        }
+      }
+    } catch (error) {
+      console.error("Lỗi thanh toán:", error);
+      Alert.alert(
+        "Lỗi",
+        "Có lỗi xảy ra khi xử lý thanh toán. Vui lòng thử lại."
+      );
+    }
   };
 
   return (

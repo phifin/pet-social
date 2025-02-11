@@ -67,3 +67,47 @@ export const addCart = async ({ userId, productId, quantity }) => {
     console.log("add cart error", error);
   }
 };
+
+export const deleteCartItem = async (cartItemId) => {
+  try {
+    const response = await axiosInstance.delete(`Cart`, {
+      cartItemIds: [cartItemId],
+    });
+  } catch (error) {
+    console.log("error delete cart", error);
+  }
+};
+
+export const checkout = async ({ userId, cartItems }) => {
+  try {
+    const response = await axiosInstance.post(`Order/checkout`, {
+      customerId: userId,
+      cartItemIds: cartItems,
+    });
+    return response.data;
+  } catch (error) {
+    console.log("error checkout", error);
+  }
+};
+
+export const finishPayment = async ({ orderId, paymentMethod }) => {
+  try {
+    const response = await axiosInstance.post(`/Order/place-order`, {
+      orderId: orderId,
+      paymentMethod: paymentMethod,
+    });
+  } catch (error) {
+    console.log("place order error", error);
+  }
+};
+
+export const createPaymentUrl = async ({ money, orderId }) => {
+  try {
+    const response = await axiosInstance.get(
+      `Payment/CreatePaymentUrl?money=${money}&description=${orderId}`
+    );
+    return response;
+  } catch (error) {
+    console.log("error pay online", error);
+  }
+};
