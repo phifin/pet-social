@@ -14,10 +14,12 @@ import {
 } from "../../../services/productService";
 import ProductCard from "../../../components/ProductCard";
 import { useAuth } from "../../../contexts/AuthContext";
+import { useRouter } from "expo-router";
 
 const Shopping = () => {
   const queryClient = useQueryClient();
   const { user } = useAuth();
+  const router = useRouter();
 
   // Fetch danh sách sản phẩm
   const {
@@ -48,6 +50,13 @@ const Shopping = () => {
       queryClient.invalidateQueries(["favoriteList"]); // Refresh danh sách yêu thích
     },
   });
+  if (isLoadingProducts || isLoadingFavorites) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color="#007bff" />
+      </View>
+    );
+  }
 
   // Gộp dữ liệu danh sách sản phẩm với trạng thái yêu thích
   const enrichedProducts =
@@ -57,9 +66,12 @@ const Shopping = () => {
         favoriteList?.some((fav) => fav.productId === product.id) || false,
     })) || [];
   // console.log("favorite product", favoriteList);
-  const handleProductClick = (product) => {
-    console.log("Clicked on product:", product.title);
-  };
+  // const handleProductClick = (productId) => {
+  //   router.push({
+  //     pathname: "/(main)/shopping/productDetails",
+  //     params: { productId: productId },
+  //   });
+  // };
 
   const toggleFavorite = (product) => {
     if (!user?.id) {
@@ -67,10 +79,10 @@ const Shopping = () => {
       return;
     }
 
-    console.log("🔄 Toggling favorite:", {
-      productId: product.id,
-      customerId: user.id,
-    });
+    // console.log("🔄 Toggling favorite:", {
+    //   productId: product.id,
+    //   customerId: user.id,
+    // });
 
     addFavorite({ productId: product.id, customerId: user.id });
   };
@@ -93,14 +105,13 @@ const Shopping = () => {
       <FlatList
         data={enrichedProducts}
         keyExtractor={(item) => item.id.toString()}
+        numColumns={2}
         renderItem={({ item }) => (
-          <ProductCard
-            item={item}
-            handleProductClick={handleProductClick}
-            toggleFavorite={toggleFavorite}
-          />
+          <ProductCard item={item} toggleFavorite={toggleFavorite} />
         )}
         contentContainerStyle={styles.list}
+        removeClippedSubviews={false}
+        style={styles.productList}
       />
     </View>
   );
@@ -112,6 +123,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+    paddingBottom: 80,
   },
   title: {
     fontSize: 20,
@@ -126,4 +138,7 @@ const styles = StyleSheet.create({
   errorText: {
     color: "red",
   },
+  // productList: {
+  //   paddingTop: 5,
+  // },
 });

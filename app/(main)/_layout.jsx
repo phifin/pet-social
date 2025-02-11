@@ -18,7 +18,13 @@ export default function TabsLayout() {
   const segments = useSegments();
   const { user } = useAuth();
 
-  const hiddenRoutes = ["newPost", "dogFilter", "notifications", "chat"];
+  const hiddenRoutes = [
+    "newPost",
+    "dogFilter",
+    "notifications",
+    "chat",
+    // "shopping",
+  ];
   const hideTabBar = segments.some((segment) => hiddenRoutes.includes(segment));
 
   const fetchToken = async (userId) => {

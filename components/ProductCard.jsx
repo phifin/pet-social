@@ -2,15 +2,19 @@ import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import React, { useState } from "react";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import ShimmerPlaceHolder from "react-native-shimmer-placeholder";
+import { useRouter } from "expo-router";
 
-const ProductCard = ({ item, handleProductClick, toggleFavorite }) => {
+const ProductCard = ({ item, toggleFavorite }) => {
+  const router = useRouter();
   const [imageLoaded, setImageLoaded] = useState(false);
-
+  const handleProductClick = () => {
+    router.push({
+      pathname: "/(main)/shopping/productDetails",
+      params: { productId: item.id },
+    });
+  };
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() => handleProductClick(item)}
-    >
+    <TouchableOpacity style={styles.container} onPress={handleProductClick}>
       {/* Shimmer effect for image */}
       <ShimmerPlaceHolder visible={imageLoaded} style={styles.coverImage}>
         <Image
@@ -56,26 +60,30 @@ export default ProductCard;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginHorizontal: 10,
-    marginVertical: 10,
-    position: "relative",
+    width: "48%", // Giữ khoảng cách hợp lý giữa các item
+    margin: 5,
+    minHeight: 250,
   },
   coverImage: {
-    height: 256,
+    height: 180,
     width: "100%",
-    borderRadius: 20,
+    borderRadius: 10,
   },
   contentContainer: {
-    padding: 10,
+    padding: 8,
+    flexShrink: 1, // Cho phép chữ co giãn
+    alignItems: "flex-start",
+    minHeight: 75,
   },
   title: {
-    fontSize: 18,
-    fontWeight: "700",
+    fontSize: 15,
+    fontWeight: "600",
     color: "#444444",
+    flexShrink: 1, // Tránh chữ bị mất
+    // paddingBottom: 5,
   },
   price: {
-    fontSize: 18,
+    fontSize: 15,
   },
   likeContainer: {
     position: "absolute",
@@ -87,7 +95,7 @@ const styles = StyleSheet.create({
   },
   titlePlaceholder: {
     width: "80%",
-    height: 20,
+    height: 22,
     borderRadius: 5,
     marginBottom: 5,
   },

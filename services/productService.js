@@ -14,7 +14,7 @@ export const fetchAllProduct = async () => {
 export const getDetailProduct = async (id) => {
   try {
     const response = await axiosInstance.get(`${productUrl}/${id}`);
-    return response;
+    return response.data;
   } catch (error) {
     console.log("Error fetch product details", error);
   }
