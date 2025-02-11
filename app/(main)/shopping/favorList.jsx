@@ -62,6 +62,7 @@ const FavoriteList = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.header}>Your favorites</Text>
       <FlatList
         data={favorites}
         keyExtractor={(item) => item.id.toString()}
@@ -111,6 +112,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f8f8f8",
     padding: 16,
   },
+  header: { fontSize: 20, fontWeight: "bold", marginBottom: 10, marginLeft: 5 },
   loadingContainer: {
     flex: 1,
     justifyContent: "center",

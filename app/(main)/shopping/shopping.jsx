@@ -5,6 +5,7 @@ import {
   ActivityIndicator,
   FlatList,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -24,6 +25,8 @@ const Shopping = () => {
   const queryClient = useQueryClient();
   const { user } = useAuth();
   const router = useRouter();
+  const [searchText, setSearchText] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   // Fetch danh sách sản phẩm
   const {
@@ -108,6 +111,17 @@ const Shopping = () => {
       </View>
     );
   }
+  // tìm kiếm
+  const handleSearch = () => {
+    if (!searchText.trim()) {
+      setFilteredProducts(enrichedProducts); // Nếu rỗng, hiển thị toàn bộ
+    } else {
+      const filtered = enrichedProducts.filter((product) =>
+        product.name.toLowerCase().includes(searchText.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -145,8 +159,21 @@ const Shopping = () => {
           </TouchableOpacity>
         </View>
       </View>
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search products..."
+          value={searchText}
+          onChangeText={setSearchText}
+          onSubmitEditing={handleSearch} // Khi nhấn enter
+        />
+        <TouchableOpacity onPress={handleSearch} style={styles.searchButton}>
+          <FontAwesome5 name="search" size={18} color="white" />
+        </TouchableOpacity>
+      </View>
+
       <FlatList
-        data={enrichedProducts}
+        data={filteredProducts.length > 0 ? filteredProducts : enrichedProducts}
         keyExtractor={(item) => item.id.toString()}
         numColumns={2}
         renderItem={({ item }) => (
@@ -207,6 +234,25 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 12,
     fontWeight: "bold",
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f1f1f1",
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+  },
+  searchInput: {
+    flex: 1,
+    height: 40,
+    paddingLeft: 10,
+  },
+  searchButton: {
+    backgroundColor: "green",
+    padding: 10,
+    borderRadius: 5,
+    marginLeft: 5,
   },
   // productList: {
   //   paddingTop: 5,

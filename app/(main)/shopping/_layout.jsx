@@ -5,7 +5,7 @@ export default function ShoppingLayout() {
     <Stack
       screenOptions={{
         headerShown: true,
-        headerTitle: "Shop",
+        headerTitle: "PeTea Shop",
         headerTitleAlign: "center",
         headerTitleStyle: {
           fontSize: 24,
