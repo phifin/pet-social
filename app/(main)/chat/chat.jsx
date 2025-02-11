@@ -1,122 +1,108 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { View, ActivityIndicator } from "react-native";
-import { GiftedChat } from "react-native-gifted-chat";
 import { useLocalSearchParams } from "expo-router";
-import { chatClient } from "../../../services/streamChat";
+import { useEffect, useState } from "react";
+import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  Channel,
+  MessageInput,
+  MessageList,
+  useChatContext,
+} from "stream-chat-expo";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { useAuth } from "../../../contexts/AuthContext";
 
 export default function ChatScreen() {
-  const { userId } = useLocalSearchParams();
+  const { channelId } = useLocalSearchParams();
   const { user } = useAuth();
-  const [messages, setMessages] = useState([]);
+  const { client } = useChatContext();
   const [channel, setChannel] = useState(null);
+  const [chatPartnerName, setChatPartnerName] = useState("Chat");
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      console.error("Missing user:", { user });
+      return;
+    }
 
-    const setupChat = async () => {
+    const fetchChannel = async () => {
       try {
-        const chatChannel = chatClient.channel("messaging", {
-          members: [user.id, userId],
-        });
+        const channels = await client.queryChannels({ cid: channelId });
 
-        await chatChannel.watch();
-        setChannel(chatChannel);
+        if (channels.length > 0) {
+          const chatChannel = channels[0];
+          setChannel(chatChannel);
 
-        // Load tin nhắn cũ
-        const formattedMessages = chatChannel.state.messages.map((msg) => ({
-          _id: msg.id,
-          text: msg.text,
-          createdAt: new Date(msg.created_at),
-          user: {
-            _id: msg.user.id,
-            name: msg.user.name,
-            avatar: msg.user.image,
-          },
-        }));
+          // Lấy tên người đang nhắn tin cùng
+          const otherMember = Object.values(chatChannel.state.members).find(
+            (member) => member.user_id !== user.id
+          );
 
-        setMessages(formattedMessages.reverse());
-
-        // Lắng nghe tin nhắn mới
-        const handleNewMessage = (event) => {
-          const newMsg = {
-            _id: event.message.id,
-            text: event.message.text,
-            createdAt: new Date(event.message.created_at),
-            user: {
-              _id: event.message.user.id,
-              name: event.message.user.name,
-              avatar: event.message.user.image,
-            },
-          };
-
-          // 🔥 Chỉ thêm tin nhắn nếu nó không phải do chính user hiện tại gửi
-          if (newMsg.user._id !== user.id) {
-            setMessages((prevMessages) =>
-              prevMessages.some((msg) => msg._id === newMsg._id)
-                ? prevMessages
-                : GiftedChat.append(prevMessages, [newMsg])
-            );
-          }
-        };
-
-        chatChannel.on("message.new", handleNewMessage);
-
-        return () => {
-          chatChannel.off("message.new", handleNewMessage);
-        };
+          setChatPartnerName(otherMember?.user?.name || "Chat");
+        } else {
+          console.error("Channel not found");
+        }
       } catch (error) {
-        console.error("Error setting up chat:", error);
+        console.error("Error fetching channel:", error);
       }
     };
 
-    setupChat();
+    fetchChannel();
+  }, [user]);
 
-    return () => {
-      if (channel) channel.stopWatching();
-    };
-  }, [user, userId]);
-
-  // ✅ Chỉ cập nhật state sau khi gửi thành công, tránh gửi trùng lặp
-  const onSend = useCallback(
-    async (newMessages = []) => {
-      const message = newMessages[0];
-
-      try {
-        const sentMessage = await channel.sendMessage({ text: message.text });
-
-        // Chỉ cập nhật state với tin nhắn đã gửi thành công
-        const newMsg = {
-          _id: sentMessage.message.id,
-          text: sentMessage.message.text,
-          createdAt: new Date(sentMessage.message.created_at),
-          user: {
-            _id: sentMessage.message.user.id,
-            name: sentMessage.message.user.name,
-            avatar: sentMessage.message.user.image,
-          },
-        };
-
-        setMessages((prevMessages) =>
-          GiftedChat.append(prevMessages, [newMsg])
-        );
-      } catch (error) {
-        console.error("Error sending message:", error);
-      }
-    },
-    [channel]
-  );
-
-  if (!channel) return <ActivityIndicator size="large" color="#007AFF" />;
+  if (!channel) {
+    return <ActivityIndicator size="large" color="#007AFF" />;
+  }
 
   return (
-    <View style={{ flex: 1 }}>
-      <GiftedChat
-        messages={messages}
-        onSend={(messages) => onSend(messages)}
-        user={{ _id: user.id, name: user.name, avatar: user.image }}
-        inverted={true}
-      />
-    </View>
+    <SafeAreaView style={styles.container}>
+      {/* Tiêu đề Chat */}
+      <View style={styles.header}>
+        <Text style={styles.chatTitle}>{chatPartnerName}</Text>
+        <Ionicons name="call" size={24} color="gray" />
+      </View>
+
+      {/* Đảm bảo rằng MessageList và MessageInput đều nằm bên trong Channel */}
+      <Channel channel={channel} audioRecordingEnabled>
+        <View style={styles.chatContainer}>
+          <MessageList />
+        </View>
+
+        {/* Ô nhập tin nhắn luôn nằm dưới */}
+        <SafeAreaView edges={["bottom"]} style={styles.messageInputContainer}>
+          <MessageInput />
+        </SafeAreaView>
+      </Channel>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#F8F9FA",
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
+  },
+  chatTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "green",
+  },
+  chatContainer: {
+    flex: 1, // Đảm bảo phần chat chiếm toàn bộ không gian còn lại
+  },
+  messageInputContainer: {
+    borderTopWidth: 1,
+    borderTopColor: "#ddd",
+    backgroundColor: "#fff",
+    marginBottom: 50,
+  },
+});
