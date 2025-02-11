@@ -4,9 +4,13 @@ import {
   View,
   ActivityIndicator,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import { getCart } from "../../../services/productService";
+
 import {
   fetchAllProduct,
   getFavoriteList,
@@ -41,7 +45,13 @@ const Shopping = () => {
     queryFn: () => getFavoriteList(user.id),
     enabled: !!user.id, // Chỉ chạy nếu user.id tồn tại
   });
-
+  // Fetch giỏ hàng
+  const { data: cartData, isLoading: isLoadingCart } = useQuery({
+    queryKey: ["cart", user.id],
+    queryFn: () => getCart(user.id),
+    enabled: !!user.id, // Chỉ chạy nếu user.id tồn tại
+  });
+  const cartItemCount = cartData?.cartItems?.length || 0;
   // Mutation để thêm sản phẩm vào danh sách yêu thích
   const { mutate: addFavorite, isLoading: isAddingFavorite } = useMutation({
     mutationFn: ({ productId, customerId }) =>
@@ -101,7 +111,40 @@ const Shopping = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Danh sách sản phẩm</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Our Products</Text>
+        <View style={styles.iconHeader}>
+          <TouchableOpacity
+            onPress={() => router.push("/(main)/shopping/favorList")}
+          >
+            <FontAwesome5
+              name="heart"
+              size={22}
+              color="red"
+              style={styles.icon}
+            />
+          </TouchableOpacity>
+
+          {/* Nút Cart */}
+          <TouchableOpacity
+            onPress={() => router.push("/(main)/shopping/cart")}
+          >
+            <View style={styles.cartIconContainer}>
+              <FontAwesome5
+                name="shopping-cart"
+                size={22}
+                color="gray"
+                style={styles.icon}
+              />
+              {cartItemCount > 0 && (
+                <View style={styles.badge}>
+                  <Text style={styles.badgeText}>{cartItemCount}</Text>
+                </View>
+              )}
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
       <FlatList
         data={enrichedProducts}
         keyExtractor={(item) => item.id.toString()}
@@ -129,6 +172,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 10,
+    marginLeft: 5,
   },
   centered: {
     flex: 1,
@@ -137,6 +181,32 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: "red",
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  iconHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  badge: {
+    position: "absolute",
+    top: -5,
+    right: -10,
+    backgroundColor: "red",
+    borderRadius: 10,
+    width: 20,
+    height: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  badgeText: {
+    color: "white",
+    fontSize: 12,
+    fontWeight: "bold",
   },
   // productList: {
   //   paddingTop: 5,
