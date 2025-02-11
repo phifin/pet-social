@@ -1,29 +1,48 @@
 import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import ShimmerPlaceHolder from "react-native-shimmer-placeholder";
 
 const ProductCard = ({ item, handleProductClick, toggleFavorite }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => {
-        handleProductClick(item);
-      }}
+      onPress={() => handleProductClick(item)}
     >
-      <Image source={{ uri: item.image }} style={styles.coverImage} />
+      {/* Shimmer effect for image */}
+      <ShimmerPlaceHolder visible={imageLoaded} style={styles.coverImage}>
+        <Image
+          source={{ uri: item.imageUrl }}
+          style={styles.coverImage}
+          onLoad={() => setImageLoaded(true)}
+        />
+      </ShimmerPlaceHolder>
+
+      {/* Product Details */}
       <View style={styles.contentContainer}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.price}>${item.price}</Text>
-      </View>
-      <View style={styles.likeContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            toggleFavorite(item);
-          }}
+        <ShimmerPlaceHolder
+          visible={imageLoaded}
+          style={styles.titlePlaceholder}
         >
+          <Text style={styles.title}>{item.name}</Text>
+        </ShimmerPlaceHolder>
+
+        <ShimmerPlaceHolder
+          visible={imageLoaded}
+          style={styles.pricePlaceholder}
+        >
+          <Text style={styles.price}>${item.basePrice}</Text>
+        </ShimmerPlaceHolder>
+      </View>
+
+      {/* Like Button */}
+      <View style={styles.likeContainer}>
+        <TouchableOpacity onPress={() => toggleFavorite(item)}>
           <FontAwesome5
-            name={item.isFavorite ? "heart" : "heart"}
-            solid={item.isFavorite} // Nếu yêu thích, hiển thị icon đặc
+            name="heart"
+            solid={item.isFavorite}
             color={item.isFavorite ? "red" : "gray"}
             size={20}
           />
@@ -40,12 +59,12 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 10,
     marginVertical: 10,
+    position: "relative",
   },
   coverImage: {
     height: 256,
     width: "100%",
     borderRadius: 20,
-    position: "relative",
   },
   contentContainer: {
     padding: 10,
@@ -65,5 +84,16 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     right: 10,
     top: 10,
+  },
+  titlePlaceholder: {
+    width: "80%",
+    height: 20,
+    borderRadius: 5,
+    marginBottom: 5,
+  },
+  pricePlaceholder: {
+    width: "40%",
+    height: 20,
+    borderRadius: 5,
   },
 });
