@@ -11,6 +11,7 @@ import {
   createComment,
   fetchPostDetails,
   removeComment,
+  removePost,
 } from "../../../services/postService";
 import Input from "../../../components/Input";
 import Icon from "../../../assets/icons";
@@ -146,7 +147,7 @@ const PostDetails = () => {
   };
   const onEditPost = async (item) => {
     router.back();
-    router.push({ pathname: "newPost", params: { ...item } });
+    router.push({ pathname: "/(main)/home/newPost", params: { ...item } });
   };
 
   if (!post) {
