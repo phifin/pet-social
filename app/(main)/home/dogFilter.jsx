@@ -332,10 +332,10 @@ const DogBreedFilter = () => {
     <ScreenWrapper>
       <ScrollView style={styles.container}>
         <BackButton router={router} />
-        <Text style={styles.title}>Lọc Giống Chó Theo Đặc Điểm</Text>
+        <Text style={styles.title}> Filter Pet By Character</Text>
 
         {/* Chọn kích thước chó */}
-        <Text style={styles.subtitle}>Chọn Kích Thước:</Text>
+        <Text style={styles.subtitle}>Size:</Text>
         <View style={styles.filterContainer}>
           {["Small", "Medium", "Large"].map((size) => (
             <TouchableOpacity
@@ -355,7 +355,7 @@ const DogBreedFilter = () => {
         </View>
 
         {/* Chọn màu sắc chó */}
-        <Text style={styles.subtitle}>Chọn Màu Sắc:</Text>
+        <Text style={styles.subtitle}>Color:</Text>
         <View style={styles.filterContainer}>
           {[
             "Golden",
@@ -384,7 +384,7 @@ const DogBreedFilter = () => {
         </View>
 
         {/* Chọn độ tuổi */}
-        <Text style={styles.subtitle}>Chọn Độ Tuổi:</Text>
+        <Text style={styles.subtitle}>Age:</Text>
         <View style={styles.filterContainer}>
           {["Puppy", "Adult", "Senior"].map((age) => (
             <TouchableOpacity
@@ -404,7 +404,7 @@ const DogBreedFilter = () => {
         </View>
 
         {/* Chọn tính cách */}
-        <Text style={styles.subtitle}>Chọn Tính Cách:</Text>
+        <Text style={styles.subtitle}>Characteristic:</Text>
         <View style={styles.filterContainer}>
           {["Friendly", "Aggressive", "Calm", "Playful"].map((temperament) => (
             <TouchableOpacity
@@ -424,7 +424,7 @@ const DogBreedFilter = () => {
         </View>
 
         {/* Chọn hoạt động yêu thích */}
-        <Text style={styles.subtitle}>Chọn Hoạt Động Yêu Thích:</Text>
+        <Text style={styles.subtitle}>Favorable Activity:</Text>
         <View style={styles.filterContainer}>
           {["Running", "Swimming", "Hunting", "Sleeping"].map((activity) => (
             <TouchableOpacity
@@ -444,7 +444,7 @@ const DogBreedFilter = () => {
         </View>
 
         {/* Hiển thị danh sách giống chó đã lọc */}
-        <Text style={styles.subtitle}>Danh Sách Giống Chó:</Text>
+        <Text style={styles.subtitle}>Pet List:</Text>
         <FlatList
           data={filteredBreeds}
           keyExtractor={(item) => item.breed}
@@ -467,6 +467,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    marginBottom: 20,
     backgroundColor: "#f5f5f5",
   },
   title: {

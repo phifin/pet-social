@@ -128,6 +128,17 @@ const Shopping = () => {
       <View style={styles.header}>
         <Text style={styles.title}>Our Products</Text>
         <View style={styles.iconHeader}>
+          {/* Nút Túi - Điều hướng đến danh sách đơn hàng */}
+          <TouchableOpacity
+            onPress={() => router.push("/(main)/shopping/order")}
+          >
+            <FontAwesome5
+              name="shopping-bag"
+              size={22}
+              color="#062c20"
+              style={styles.icon}
+            />
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => router.push("/(main)/shopping/favorList")}
           >

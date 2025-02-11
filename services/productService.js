@@ -111,3 +111,14 @@ export const createPaymentUrl = async ({ money, orderId }) => {
     console.log("error pay online", error);
   }
 };
+
+export const getAllOrder = async (userId) => {
+  try {
+    const response = await axiosInstance.get(
+      `Order/get-customer-orders?customerId=${userId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log("error fetching orders", error);
+  }
+};
